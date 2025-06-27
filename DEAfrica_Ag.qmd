@@ -1,0 +1,76 @@
+---
+title: "Agricultural Mapping and Monitoring with Digital Earth Africa"
+author: "Michael Wellington"
+format: html
+editor: visual
+bibliography: biblio.bib
+---
+
+# Agricultural Mapping and Monitoring with Digital Earth Africa
+
+Digital Earth Africa offers continental-scale satellite-derived data products and provides guidance on their application in analytical workflows. This chapter demonstrates the use of high quality, cloud-free, geomedian composite images with median absolute deviations (GeoMADs) for crop type mapping. Digital Earth Africa’s GeoMADs are applied to a classification framework in the satellite image time series (SITS) package in the R language.
+
+The chapter demonstrates how high-quality, ‘off-the-shelf’ satellite image composites can overcome common challenges in classification workflows, such as the ‘curse of dimensionality’ and computational demand. It also introduces readers and users to Digital Earth Africa products and services, and modes of access, especially through the SITS R package.
+
+## Digital Earth Africa Products and Services
+
+Digital Earth Africa provides open access to over 80 spatial datasets covering the African continent. They cover thematics including loand cover, coasts, agriculture, topography, water, and vegetation. These datasets can be explored in several platforms. The [Digital Earth Africa Explorer](https://explorer.digitalearth.africa/products) displays metadata for each dataset, including availability in space and time. It also enables download of single band .tif files.
+
+Digital Earth Africa data can be visualised in the Digital Earth Africa Maps platform. This platform also supports basic visual analysis including differencing and comparison
+
+The Digital Earth Africa Sandbox is a JupyterHub computing environment where users can interact with Digital Earth Africa data using Python. The Sandbox provides a direct connection to the Digital Earth Africa implementation of the Open Data Cube, so datasets can easily be queried.
+
+Digital Earth Africa data is also retrievable using the STAC library through packages such as odc-stac (Python) and rstac (R). Digital Earth Africa maintains a repository of odc-stac examples. This chapter uses the sits R package to access and analyse Digital Earth Africa data for the purposes of agricultural mapping and monitoring.
+
+## R sits and Digital Earth Africa
+
+The Satellite Image Time Series Analysis on Earth Observation Data Cubes (sits) enables workflows to be conducted on Earth Observation data cubes, such as data available from Digital Earth Africa.
+
+Digital Earth Africa datasets available in the sits package are:
+
+-   [Sentinel-2 Level 2A Surface Reflectance](https://docs.digitalearthafrica.org/en/latest/data_specs/Sentinel-2_Level-2A_specs.html) (`SENTINEL-2-L2A`)
+
+-   [Landsat 5, 7, 8 and 9 Surface Reflectance](https://docs.digitalearthafrica.org/en/latest/data_specs/Landsat_C2_SR_specs.html) (`LS5-SR`, `LS7-SR`, `LS8-SR` & `LS9-SR`)
+
+-   [ALOS-PALSAR](https://docs.digitalearthafrica.org/en/latest/data_specs/ALOS_PALSAR_annual_mosaic_specs.html) SAR L-band images from 2007-2010 and 2015-2022 (`ALOS-PALSAR-MOSAIC`)
+
+-   Monthly [NDVI mean and anomalies](https://docs.digitalearthafrica.org/en/latest/data_specs/NDVI_Anomaly_specs.html) (`NDVI-ANOMALY`)
+
+-   [Monthly and daily rainfall data](https://docs.digitalearthafrica.org/en/latest/data_specs/CHIRPS_specs.html) from the Climate Hazards Group InfraRed Precipitation with Station (CHIRPS) data initiative (`RAINFALL-CHIRPS-MONTHLY` & `RAINFALL-CHIRPS-DAILY`)
+
+-   Copernicus [digital elevation model](https://docs.digitalearthafrica.org/en/latest/data_specs/COP_DEM_specs.html) in 30-m resolution (`COP-DEM-30`)
+
+-   Annual [geomedian composite images](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) for Landsat-8 and Landsat-9 combined\] (`GM-LS8-LS9-ANNUAL`)
+
+-   Annual [geomedian composite images](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) for Sentinel-2 (`GM-S2-ANNUAL`)
+
+-   Rolling three-month [geomedian composite images](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) for Sentinel-2 (`GM-S2-ROLLING`)
+
+-   Semi-annual (six monthly) [geomedian composite images](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) for Sentinel-2 (`GM-S2-SEMIANNUAL`)
+
+## Digital Earth Africa Geomedians
+
+This chapter will focus on the application of cloud-free  geometric median (geomedian) composite images as input data for agricultural mapping. Surface reflectance data collected at regular intervals are often used as input data in machine learning workflows for agricultural mapping such as cropland extent mapping and crop-type mapping. However, single observations can be affected by cloud or other interferences, and are subject to  noise. Cloud-free geomedian composite images preserve the high-dimensional relationships between spectral bands and provide a single, high-quality observation for each band over a given period [@8004469]. This reduces the dimensionality of the data and therefore the computational burden of running classification algorithms.
+
+[Digital Earth Africa's geomedian products](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) include measures of temporal variation as median absolute deviations (MADs) [@8518312]. They are effectively a measure of temporal variation over the period covered by the geomedian. The MADs are therefore useful for change detection, or highlighting land classes undergoing frequent change, such as cropland subjected to patterns of cultivation, intense crop growth, and harvest. The combination of the geomedian and MADs is called the GeoMAD. MADs available in the Digital Earth Africa GeoMADs are the:
+
+* Spectral Median Absolute Deviation (SMAD)
+* Euclidean Median Absolute Deviation (EMAD)
+* Bray-Curtis Median Absolute Deviation (BCMAD)
+
+Geomedians have been a popular input dataset for machine learning classification workflows. For example, Digital Earth Africa's [cropland extent map](https://docs.digitalearthafrica.org/en/latest/data_specs/Cropland_extent_specs.html) is derived from the Sentinel-2 semiannual Geo
+
+## Crop Type Mapping Training Data
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r, echo=false}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
