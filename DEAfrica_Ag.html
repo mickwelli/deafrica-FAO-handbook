@@ -194,7 +194,7 @@ div.csl-indent {
 <section id="training-data-sources" class="level3">
 <h3 class="anchored" data-anchor-id="training-data-sources">Training data sources</h3>
 <p>Supervised classification requires reference data to train and validate models. For crop type mapping, this generally means spatial information collected from agricultural surveys is used. Field surveys are resource intensive and any field collected data is valuable, though may need manipulation before it is used in classification and mapping workflows.</p>
-<p>There are several principles and guidelines that should be followed when collecting reference data for crop type mapping or assessing its value. The Group on Earth Observations, through the Joint Assessment for Crop Assessment and Monitoring, have published <a href="https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf">guidelines for cropland and crop type definition and field data collection</a> <span class="citation" data-cites="defourny2014jecam">(<a href="#ref-defourny2014jecam" role="doc-biblioref">Defourny, Jarvis, and Blaes 2014</a>)</span>. The TetraTech Enabling Crop Analytics At Scale initiative have <a href="https://cropanalytics.net/wp-content/uploads/2021/09/ODK-Agriculture-User-Guide-v0.4-1.pdf">published guidelines for the collection of reference crop type data using ODK software</a>. There are also numerous academic materials exploring various sampling techniques for crop type mapping field data collection <span class="citation" data-cites="FOWLER2020102114">Lin et al. (<a href="#ref-LIN2022112994" role="doc-biblioref">2022</a>)</span>.</p>
+<p>There are several principles and guidelines that should be followed when collecting reference data for crop type mapping or assessing its value. The Group on Earth Observations, through the Joint Assessment for Crop Assessment and Monitoring, have published <a href="https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf">guidelines for cropland and crop type definition and field data collection</a> <span class="citation" data-cites="defourny2014jecam">(<a href="#ref-defourny2014jecam" role="doc-biblioref">Defourny, Jarvis, and Blaes 2014</a>)</span>. The TetraTech Enabling Crop Analytics At Scale initiative have <a href="https://cropanalytics.net/wp-content/uploads/2021/09/ODK-Agriculture-User-Guide-v0.4-1.pdf">published guidelines for the collection of reference crop type data using ODK software</a>. There are also numerous academic materials exploring various sampling techniques for crop type mapping field data collection <span class="citation" data-cites="FOWLER2020102114 LIN2022112994">(<a href="#ref-FOWLER2020102114" role="doc-biblioref">Fowler, Waldner, and Hochman 2020</a>; <a href="#ref-LIN2022112994" role="doc-biblioref">Lin et al. 2022</a>)</span>.</p>
 <p>This chapter demonstrates the use of open-source reference data. In this case, data has been identified from the ESA World Cereal Reference Data Module <span class="citation" data-cites="karanam2024worldcereal">(<a href="#ref-karanam2024worldcereal" role="doc-biblioref">Karanam et al. 2024</a>)</span>. Specifically, a collection of field data from the Muvumba River district of Rwanda in 2020 has been used. The field data was collected as part of the <a href="https://www.fao.org/in-action/remote-sensing-for-water-productivity/en/">FAO WaPOR</a> program. Alternative sources of field data include <a href="https://source.coop/">Source Cooperative</a>, the <a href="https://cmr.earthdata.nasa.gov/search/">EarthData Common Metadata Repository</a>, and the <a href="https://collections.eurodatacube.com/">Euro Data Cube</a>. Institutions and users may also have their own reference datasets.</p>
 </section>
 <section id="loading-training-data" class="level3">
@@ -278,22 +278,14 @@ Geodetic CRS:  WGS 84
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"SMAD"</span>, <span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B08"</span>, <span class="st">"B11"</span>),</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_date =</span> <span class="st">"2020-01-01"</span>,</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">end_date =</span> <span class="st">"2020-12-30"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs=</span><span class="st">"EPSG:6933"</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-</div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">crs=</span><span class="st">"EPSG:6933"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress=</span><span class="cn">FALSE</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plotting the Sentinel-2 GeoMAD in false colour shows the high-quality, cloud-free nature of the composite image. Plotting the near infrared band (<code>B08</code>) in the red channel means that areas covered with vegetation appear deep red and water appears blue or black.</p>
 <p>Data cubes loaded with the <code>sits</code> package are stored in tiles. In this case, the region of interest has resulted in two tiles being loaded, and the second tile is plotted.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_cube, <span class="at">red =</span> <span class="st">"B08"</span>, <span class="at">blue =</span> <span class="st">"B04"</span>, <span class="at">green =</span> <span class="st">"B03"</span>, <span class="at">tile=</span>dea_s2_cube<span class="sc">$</span>tile[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_cube, <span class="at">red =</span> <span class="st">"B08"</span>, <span class="at">blue =</span> <span class="st">"B04"</span>, <span class="at">green =</span> <span class="st">"B03"</span>, <span class="at">tile=</span>dea_s2_cube<span class="sc">$</span>tile[[<span class="dv">2</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -309,74 +301,14 @@ Geodetic CRS:  WGS 84
 <p>As this workflow is producing a crop type map, the surface reflectance data will be masked to cropland areas only. There are numerous ways this can be achieved. In this case, the masking will be conducted with functions from the <code>terra</code> package.</p>
 <p>First, a mosaic is created by fusing the tiles in the geomedian data cube. This is plotted in true colour and provides an indication of the spatial extent of the analysis.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mosaic <span class="ot">&lt;-</span> <span class="fu">sits_mosaic</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> dea_s2_cube,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="st">"EPSG:6933"</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |====                                                                  |   6%
-  |                                                                            
-  |========                                                              |  11%
-  |                                                                            
-  |============                                                          |  17%
-  |                                                                            
-  |================                                                      |  22%
-  |                                                                            
-  |===================                                                   |  28%
-  |                                                                            
-  |=======================                                               |  33%
-  |                                                                            
-  |===========================                                           |  39%
-  |                                                                            
-  |===============================                                       |  44%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |=======================================                               |  56%
-  |                                                                            
-  |===========================================                           |  61%
-  |                                                                            
-  |===============================================                       |  67%
-  |                                                                            
-  |===================================================                   |  72%
-  |                                                                            
-  |======================================================                |  78%
-  |                                                                            
-  |==========================================================            |  83%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |==================================================================    |  94%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |========                                                              |  11%
-  |                                                                            
-  |================                                                      |  22%
-  |                                                                            
-  |=======================                                               |  33%
-  |                                                                            
-  |===============================                                       |  44%
-  |                                                                            
-  |=======================================                               |  56%
-  |                                                                            
-  |===============================================                       |  67%
-  |                                                                            
-  |======================================================                |  78%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mosaic, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mosaic <span class="ot">&lt;-</span> <span class="fu">sits_mosaic</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> dea_s2_cube,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs =</span> <span class="st">"EPSG:6933"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">2</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mosaic, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -388,34 +320,15 @@ Geodetic CRS:  WGS 84
 </div>
 <p>Since the mosaic images are stored as <code>.tif</code> files in the data directory, they can be loaded as raster objects for application in the <code>terra</code> package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mosaic_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">'data'</span>, <span class="at">pattern=</span><span class="st">"*MOSAIC*"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>rast_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mosaic_files)){</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  rast_list[i] <span class="ot">&lt;-</span> <span class="fu">rast</span>(mosaic_files[i])</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated
-Warning in `[&lt;-`(`*tmp*`, i, value = rast(mosaic_files[i])): implicit list
-embedding of S4 objects is deprecated</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mosaic_rast <span class="ot">&lt;-</span> <span class="fu">rast</span>(rast_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>mosaic_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">'data'</span>, <span class="at">pattern=</span><span class="st">"*MOSAIC*"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>rast_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(mosaic_files)){</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  rast_list[i] <span class="ot">&lt;-</span> <span class="fu">rast</span>(mosaic_files[i])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>mosaic_rast <span class="ot">&lt;-</span> <span class="fu">rast</span>(rast_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -426,28 +339,28 @@ embedding of S4 objects is deprecated</code></pre>
 <p>The surface reflectance data in the Sentinel-2 GeoMAD will be masked to cropland using the <a href="https://docs.digitalearthafrica.org/en/latest/data_specs/Cropland_extent_specs.html">Digital Earth Africa cropland extent map</a>. This map itself was produced using GeoMADs. In a study comparing the accuracy of 11 open source land cover maps for identifying cropland in Sub-Saharan Africa, the Digital Earth Africa cropland extent maps was “the map that most frequently has the highest score across all metrics and countries” <span class="citation" data-cites="kerner2024accurate">(<a href="#ref-kerner2024accurate" role="doc-biblioref">Kerner et al. 2024</a>)</span>. However, it was noted that there was low recall in some locations. The <a href="https://docs.digitalearthafrica.org/en/latest/data_specs/Cropland_extent_specs.html">product documentation</a> provides further information on accuracy assessment. In this workflow, it’s also convenient that the geometric specifications of the cropland extent map match the GeoMAD given its derivation from that product.</p>
 <p>The code chunk below uses <code>rstac</code> functions (on which the <code>sits</code> package is built) to load the Digital Earth Africa cropland extent map. Search the spatiotemporal asset catalog (STAC) returns two items in this case. They are tiles which match the original tiles in the GeoMAD data cube.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>s_obj <span class="ot">&lt;-</span> <span class="fu">stac</span>(<span class="st">"https://explorer.digitalearth.africa/stac"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(rwa_2020)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>area_of_interest <span class="ot">=</span> <span class="fu">cql2_bbox_as_geojson</span>(bbox)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">cql2_interval</span>(<span class="st">"2019-01-01"</span>, <span class="st">"2020-01-01"</span>)</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>stac_items <span class="ot">&lt;-</span> s_obj <span class="sc">%&gt;%</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ext_filter</span>(</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    collection <span class="sc">==</span> <span class="st">"crop_mask"</span> <span class="sc">&amp;&amp;</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">t_intersects</span>(datetime, {{time_range}}) <span class="sc">&amp;&amp;</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">s_intersects</span>(geometry, {{area_of_interest}})</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">post_request</span>()</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>stac_items <span class="ot">&lt;-</span> stac_items <span class="sc">%&gt;%</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assets_select</span>(<span class="at">asset_names =</span> <span class="fu">c</span>(<span class="st">"mask"</span>))</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>sf <span class="ot">&lt;-</span> <span class="fu">items_as_sf</span>(stac_items)</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>stac_items</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>s_obj <span class="ot">&lt;-</span> <span class="fu">stac</span>(<span class="st">"https://explorer.digitalearth.africa/stac"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">st_bbox</span>(rwa_2020)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>area_of_interest <span class="ot">=</span> <span class="fu">cql2_bbox_as_geojson</span>(bbox)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>time_range <span class="ot">&lt;-</span> <span class="fu">cql2_interval</span>(<span class="st">"2019-01-01"</span>, <span class="st">"2020-01-01"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>stac_items <span class="ot">&lt;-</span> s_obj <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ext_filter</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    collection <span class="sc">==</span> <span class="st">"crop_mask"</span> <span class="sc">&amp;&amp;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">t_intersects</span>(datetime, {{time_range}}) <span class="sc">&amp;&amp;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">s_intersects</span>(geometry, {{area_of_interest}})</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">post_request</span>()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>stac_items <span class="ot">&lt;-</span> stac_items <span class="sc">%&gt;%</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assets_select</span>(<span class="at">asset_names =</span> <span class="fu">c</span>(<span class="st">"mask"</span>))</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>sf <span class="ot">&lt;-</span> <span class="fu">items_as_sf</span>(stac_items)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>stac_items</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>###Items
 - matched feature(s): 2
@@ -461,15 +374,15 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 </div>
 <p>The STAC items can be loaded easily as <code>stars</code> objects then the tiles can be merged into a mosaic and plotted. The output shows that excluded areas are coded <code>NA</code>, non-crop is coded <code>0</code>, and crop areas are coded <code>1</code>, as per the product definition. A large portion of the region of interest is cropland.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>crop_mask <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stac_items<span class="sc">$</span>features)){</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  crop_mask[[i]] <span class="ot">&lt;-</span> stac_items<span class="sc">$</span>features[[i]] <span class="sc">%&gt;%</span> <span class="fu">assets_url</span>(<span class="at">append_gdalvsi =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span>   <span class="fu">read_stars</span>() <span class="sc">%&gt;%</span> <span class="fu">st_set_crs</span>(<span class="st">'+proj=cea +lat_ts=30 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs'</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>crop_mask_mos <span class="ot">&lt;-</span> <span class="fu">st_mosaic</span>(crop_mask[[<span class="dv">1</span>]], crop_mask[[<span class="dv">2</span>]])</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_mask_mos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>crop_mask <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stac_items<span class="sc">$</span>features)){</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  crop_mask[[i]] <span class="ot">&lt;-</span> stac_items<span class="sc">$</span>features[[i]] <span class="sc">%&gt;%</span> <span class="fu">assets_url</span>(<span class="at">append_gdalvsi =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span>   <span class="fu">read_stars</span>() <span class="sc">%&gt;%</span> <span class="fu">st_set_crs</span>(<span class="st">'+proj=cea +lat_ts=30 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>crop_mask_mos <span class="ot">&lt;-</span> <span class="fu">st_mosaic</span>(crop_mask[[<span class="dv">1</span>]], crop_mask[[<span class="dv">2</span>]])</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_mask_mos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -484,13 +397,13 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <h3 class="anchored" data-anchor-id="masking-the-geomad-to-cropland">Masking the GeoMAD to cropland</h3>
 <p>The crop mask mosaic is written to a local directory so it can then be loaded as a <code>terra</code> object and used to mask the GeoMAD mosaic. This is achieved using the <code>terra</code> function <code>mask</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>crop_mask_local <span class="ot">&lt;-</span> <span class="fu">write_stars</span>(crop_mask_mos, <span class="st">"data/crop_mask_20190101.tif"</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>crop_mask_local <span class="ot">&lt;-</span> <span class="fu">write_stars</span>(crop_mask_mos, <span class="st">"data/crop_mask_20190101.tif"</span>, <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>================================================================================</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cm_rast <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/crop_mask_20190101.tif"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>mosaic_rast_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(mosaic_rast, cm_rast, <span class="at">maskvalues =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>cm_rast <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"data/crop_mask_20190101.tif"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>mosaic_rast_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(mosaic_rast, cm_rast, <span class="at">maskvalues =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 |---------|---------|---------|---------|
@@ -501,63 +414,40 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The masked surface reflectance data is exported to a local directory so a data cube can be built from it. A <code>sits</code> cube requires single band <code>.tifs</code>. Arranging the data in tiles is also helpful for parallel computing and efficiency when conducting classification. For these reasons, the <code>makeTiles</code> function from <code>terra</code> is used to revert the mosaic into original tile configuration. A nested for loop is then used to export <code>.tif</code> files for each band of each tile.</p>
 <p>These masking steps can be considered a ‘work around’, and there are several other ways the masking could be conducted including by maintaining the tiled structure of both the GeoMAD and cropland extent data. In this case, the steps used help to visualise the process undertaken for the purposes of demonstration, and understand how data is stored and transferred between different objects.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">'data/tiles'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in dir.create("data/tiles"): 'data\tiles' already exists</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">'data/masked'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in dir.create("data/masked"): 'data\masked' already exists</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">makeTiles</span>(mosaic_rast_masked, <span class="fu">project</span>(<span class="fu">vect</span>(sf), <span class="st">'+proj=cea +lat_ts=30 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs'</span>),<span class="at">filename=</span><span class="st">"data/tiles/mosaic_rast_tile_.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">'data/tiles'</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">'data/masked'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">makeTiles</span>(mosaic_rast_masked, <span class="fu">project</span>(<span class="fu">vect</span>(sf), <span class="st">'+proj=cea +lat_ts=30 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs +type=crs'</span>),<span class="at">filename=</span><span class="st">"data/tiles/mosaic_rast_tile_.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data/tiles/mosaic_rast_tile_1.tif" "data/tiles/mosaic_rast_tile_2.tif"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">list.files</span>(<span class="st">'data/tiles'</span>))){</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(mosaic_rast_masked)){</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">writeRaster</span>(<span class="fu">as.list</span>(<span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">'data/tiles'</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)[x]))[[i]],<span class="fu">paste</span>(<span class="st">"data/masked/"</span>,<span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">1</span>,<span class="dv">15</span>), dea_s2_cube<span class="sc">$</span>tile[x], <span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">22</span>),<span class="st">".tif"</span>, <span class="at">sep=</span><span class="st">""</span>), <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-|---------|---------|---------|---------|
-=========================================
-                                          
-
-|---------|---------|---------|---------|
-=========================================
-                                          </code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">list.files</span>(<span class="st">'data/tiles'</span>))){</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(mosaic_rast_masked)){</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">writeRaster</span>(<span class="fu">as.list</span>(<span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">'data/tiles'</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)[x]))[[i]],<span class="fu">paste</span>(<span class="st">"data/masked/"</span>,<span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">1</span>,<span class="dv">15</span>), dea_s2_cube<span class="sc">$</span>tile[x], <span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">22</span>),<span class="st">".tif"</span>, <span class="at">sep=</span><span class="st">""</span>), <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="create-a-new-data-cube" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-new-data-cube">Create a new data cube</h3>
 <p>A new data cube needs to be created which refers to the masked surface reflectance data. This cube will be created from local files, so the relevant directory is specified in the <code>sits_cube</code> function. The <code>parse_info</code> argument specifies how the filenames can be read. Other parameters like the period and region of interest are the same as the original GeoMAD data cube.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dea_s2_masked <span class="ot">&lt;-</span> <span class="fu">sits_cube</span>(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">"DEAFRICA"</span>,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collection =</span> <span class="st">"GM-S2-ANNUAL"</span>,</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_dir =</span> <span class="st">"data/masked"</span>,</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"SMAD"</span>, <span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B08"</span>, <span class="st">"B11"</span>),</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="st">"2020-01-01"</span>,</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_date =</span> <span class="st">"2020-12-30"</span>,</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">roi =</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(rwa_2020)), <span class="st">"EPSG:6933"</span>),</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs=</span><span class="st">"EPSG:6933"</span>,</span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">parse_info =</span> <span class="fu">c</span>(<span class="st">"satellite"</span>, <span class="st">"sensor"</span>, <span class="st">"tile"</span>, <span class="st">"date"</span>, <span class="st">"band"</span>)</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dea_s2_masked <span class="ot">&lt;-</span> <span class="fu">sits_cube</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">"DEAFRICA"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collection =</span> <span class="st">"GM-S2-ANNUAL"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_dir =</span> <span class="st">"data/masked"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"SMAD"</span>, <span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B08"</span>, <span class="st">"B11"</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="st">"2020-01-01"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_date =</span> <span class="st">"2020-12-30"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">roi =</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(rwa_2020)), <span class="st">"EPSG:6933"</span>),</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs=</span><span class="st">"EPSG:6933"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">parse_info =</span> <span class="fu">c</span>(<span class="st">"satellite"</span>, <span class="st">"sensor"</span>, <span class="st">"tile"</span>, <span class="st">"date"</span>, <span class="st">"band"</span>),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plotting the masked data cube in true colour shows the effect of masking. Now, the surface reflectance data relates only to cropland (in accordance with the Digital Earth Africa cropland extent map), and crop type mapping can proceed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_masked, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_masked, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -577,21 +467,18 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The code chunk below removes some masking objects that are no longer required from memory with the <code>rm()</code> function.</p>
 <p>Once <code>NA</code> values are removed, there are 13 crop type classes of which 47% are maize. The reference data is quite unbalanced with numerous classes each accounting for less than 5% of the total data volume.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(crop_class, crop_mask_local, crop_mask, crop_mask_mos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in rm(crop_class, crop_mask_local, crop_mask, crop_mask_mos): object
-'crop_class' not found</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>rwa_2020_crops <span class="ot">&lt;-</span> rwa_2020 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="st">"Type of Cr"</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>tseries <span class="ot">&lt;-</span> <span class="fu">sits_get_data</span>(</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube=</span>dea_s2_masked,</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_attr =</span> <span class="st">"Type of Cr"</span>,</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">samples =</span> rwa_2020_crops</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(crop_class, crop_mask_local, crop_mask, crop_mask_mos)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>rwa_2020_crops <span class="ot">&lt;-</span> rwa_2020 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="st">"Type of Cr"</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>tseries <span class="ot">&lt;-</span> <span class="fu">sits_get_data</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube=</span>dea_s2_masked,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_attr =</span> <span class="st">"Type of Cr"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">samples =</span> rwa_2020_crops</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13 × 3
    label          count    prop
@@ -614,14 +501,14 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The <code>sits</code> function <a href="https://rdrr.io/cran/sits/man/sits_reduce_imbalance.html"><code>reduce_imbalance</code></a> makes corrections to imbalanced training data by over and under sampling. Self organised mapping (SOM) is used for under sampling and synthetic minority oversampling technique (SMOTE) is used for over sampling <span class="citation" data-cites="chawla2002smote">Santos et al. (<a href="#ref-santos2021quality" role="doc-biblioref">2021</a>)</span>. Values are entered for the number of samples to over and under sample.</p>
 <p>The result of the imbalance reduction is returned in the output and shows that each class accounts for at least 5% of the observations. If there was a particular interest in mapping uncommon crops, there could be further balance correction undertaken. Several methods have been proposed and investigated for dealing with class imbalance problems in crop type mapping <span class="citation" data-cites="WALDNER2019111375">(<a href="#ref-WALDNER2019111375" role="doc-biblioref">Waldner et al. 2019</a>)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">50</span>,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">50</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13 × 3
    label          count   prop
@@ -648,17 +535,17 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>Prior to model training, the time series data itself is cleaned. This removes <code>NA</code> values from the <code>tibble</code> objects nested within the <code>balanced_samples</code> tibble that may arise from missing pixels or other issues.</p>
 <p>Plotting the model object shows the distribution of minimal depth and its mean. Minimal depth refers to the earliest point at which a variable is used in the decision tree. That is, the shortest path from the root of the tree to the first node where the variable is used for splitting. The bars in the plot show the distribution of minimal depth among the 100 trees in the random forest, and the mean minimal depth value is plotted and annotated. A lower minimal depth value means the variable is used earlier in the tree and can therefore be interpreted as being more important for distinguishing between classes. Variables with high minimal depth values could be omitted from the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> balanced_samples <span class="sc">%&gt;%</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>rfor_model <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  balanced_samples,</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfor_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> balanced_samples <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>rfor_model <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  balanced_samples,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfor_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -673,12 +560,12 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The <code>sits</code> package provides a function for performing cross-validation as an accuracy assessment for classification models. The k-fold cross validation method splits the data into k-subsets. For each subset, a sample of data is withheld while the model is trained on all other subsets and then validated on the subset that was withheld. This process returns a confusion matrix and accuracy statistics.</p>
 <p>The overall accuracy statistic of 61.4% might be considered acceptable, especially given the large number (13) of classes and class imbalance. However, some classes, such as beans and sorghum, have quite low precision, recall and F1 values, which indicate how accurately individual classes are classified. If there was a particular interest in mapping these specific crop types, further class imbalance treatments or other approaches, such as introducing further predictor variable, might be considered. In this case, the next step will be combining classes to reduce issues associated with class imbalance.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
   |                                                                            
@@ -716,82 +603,87 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
   |                                                                            
   |======================================================================| 100%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                 Reference
 Prediction       maize beans cassava fruit irishpotatoes Others soybeans
-  maize            124    11       4     7             2      9       10
-  beans              0    14       0     2             0      2        2
-  cassava            5     4      41     0             0      7        0
-  fruit              2     2       0    28             3      1        1
-  irishpotatoes      1     4       0     2            42      3        2
-  Others             1     5       0     2             1     23        3
-  soybeans          10     4       0     1             1      2       29
-  sweet_potatoes     2     1       0     1             0      1        0
-  banana            11     1       5     2             0      2        1
-  sorghum           13     2       0     0             0      0        1
-  vegetables        21     1       0     4             1      0        1
-  rice               6     1       0     1             0      0        0
+  maize            144     9       3     4             5      8        3
+  beans              1    17       1     4             2      6        4
+  cassava            2     4      41     0             0      6        0
+  fruit              1     2       0    28             1      4        1
+  irishpotatoes      3     3       1     3            32      3        1
+  Others             1     5       2     2             2     14        2
+  soybeans           6     4       0     1             4      3       36
+  sweet_potatoes     1     0       0     1             0      1        0
+  banana            16     2       2     2             1      3        0
+  vegetables        11     2       0     3             3      2        2
+  sorghum            5     1       0     0             0      0        1
+  rice               5     1       0     2             0      0        0
   sugarcane          0     0       0     0             0      0        0
                 Reference
-Prediction       sweet_potatoes banana sorghum vegetables rice sugarcane
-  maize                       2     18      34         37    6         1
-  beans                       0      0       0          0    0         0
-  cassava                     0      4       0          0    1         0
-  fruit                       0      0       1          0    1         0
-  irishpotatoes               0      0       0          0    0         0
-  Others                      0      0       0          1    0         0
-  soybeans                    0      0       0          2    0         0
-  sweet_potatoes             45      2       0          1    5         0
-  banana                      1     77       7          8    7         0
-  sorghum                     0      0       7          0    0         0
-  vegetables                  1      6       3         45    3         1
-  rice                        1      0       0          3   58         1
-  sugarcane                   0      0       0          0    0         0
+Prediction       sweet_potatoes banana vegetables sorghum rice sugarcane
+  maize                       1     15         33      39   10         0
+  beans                       0      0          0       0    0         0
+  cassava                     0      5          0       0    0         0
+  fruit                       0      0          0       0    1         2
+  irishpotatoes               0      1          1       0    0         0
+  Others                      0      0          0       0    0         0
+  soybeans                    0      0          0       2    0         0
+  sweet_potatoes             49      1          3       0    5         0
+  banana                      0     77          9       3    3         0
+  vegetables                  0      6         50       3    3         1
+  sorghum                     0      2          1       4    0         0
+  rice                        0      0          0       1   58         0
+  sugarcane                   0      0          0       0    1         0
 
 Overall Statistics
-                             
- Accuracy : 0.6016           
-   95% CI : ( 0.5685, 0.634 )
-                             
-    Kappa : 0.5459           
+                              
+ Accuracy : 0.6208            
+   95% CI : ( 0.5879, 0.6528 )
+                              
+    Kappa : 0.5672            
 
 Statistics by Class:
 
                      Class: maize Class: beans Class: cassava Class: fruit
-Prod Acc (Recall)          0.6327         0.28         0.8200       0.5600
-User Acc (Precision)       0.4679         0.70         0.6613       0.7179
-F1 score                   0.5380         0.40         0.7321       0.6292
+Prod Acc (Recall)          0.7347       0.3400         0.8200       0.5600
+User Acc (Precision)       0.5255       0.4857         0.7069       0.7000
+F1 score                   0.6128       0.4000         0.7593       0.6222
                      Class: irishpotatoes Class: Others Class: soybeans
-Prod Acc (Recall)                  0.8400        0.4600          0.5800
-User Acc (Precision)               0.7778        0.6389          0.5918
-F1 score                           0.8077        0.5349          0.5859
-                     Class: sweet_potatoes Class: banana Class: sorghum
-Prod Acc (Recall)                   0.9000        0.7196         0.1346
-User Acc (Precision)                0.7759        0.6311         0.3043
-F1 score                            0.8333        0.6725         0.1867
-                     Class: vegetables Class: rice Class: sugarcane
-Prod Acc (Recall)               0.4639      0.7160                0
-User Acc (Precision)            0.5172      0.8169              NaN
-F1 score                        0.4891      0.7632               NA</code></pre>
+Prod Acc (Recall)                  0.6400         0.280          0.7200
+User Acc (Precision)               0.6667         0.500          0.6429
+F1 score                           0.6531         0.359          0.6792
+                     Class: sweet_potatoes Class: banana Class: vegetables
+Prod Acc (Recall)                   0.9800        0.7196            0.5155
+User Acc (Precision)                0.8033        0.6525            0.5814
+F1 score                            0.8829        0.6844            0.5464
+                     Class: sorghum Class: rice Class: sugarcane
+Prod Acc (Recall)           0.07692      0.7160                0
+User Acc (Precision)        0.28571      0.8657                0
+F1 score                    0.12121      0.7838              NaN</code></pre>
 </div>
 </div>
+</section>
+<section id="combine-crop-types-into-groups" class="level3">
+<h3 class="anchored" data-anchor-id="combine-crop-types-into-groups">Combine crop types into groups</h3>
+<p>African agriculture is often characterised by great diversity of crop types and varieties, and heterogeneity of crop types and farming practices in space. This can make mapping exercises more challenging than in more uniform and homogenous agricultural landscapes with large field sizes. Sometimes, the large number of crop types can mean that an aggregated approach can produce more useful outputs. In this case, crop classes are combined into their ‘crop groups’ based on the Indicative Crop Classification (ICC) developed by FAO in the <a href="https://www.fao.org/4/a0135e/a0135e00.htm">guidelines for agricultural censuses</a>. This approach is also adopted in the Joint Assessment for Crop Assessment and Monitoring <a href="https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf">guidelines for cropland and crop type definition and field data collection</a> <span class="citation" data-cites="defourny2014jecam">(<a href="#ref-defourny2014jecam" role="doc-biblioref">Defourny, Jarvis, and Blaes 2014</a>)</span>.</p>
+<p>In this workflow, crop types are aggregated into six crop groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>tseries_comb <span class="ot">&lt;-</span> tseries</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"irishpotatoes"</span>, <span class="st">"sweet_potatoes"</span>, <span class="st">"cassava"</span>)] <span class="ot">&lt;-</span> <span class="st">"Roots &amp; tubers"</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sorghum"</span>, <span class="st">"rice"</span>, <span class="st">"maize"</span>)] <span class="ot">&lt;-</span> <span class="st">"Cereals"</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"fruit"</span>, <span class="st">"banana"</span>)] <span class="ot">&lt;-</span> <span class="st">"Perennials"</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"beans"</span>, <span class="st">"soybeans"</span>)] <span class="ot">&lt;-</span> <span class="st">"Legumes"</span></span>
-<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sugarcane"</span>)] <span class="ot">&lt;-</span> <span class="st">"Others"</span></span>
-<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tseries_comb <span class="ot">&lt;-</span> tseries</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"irishpotatoes"</span>, <span class="st">"sweet_potatoes"</span>, <span class="st">"cassava"</span>)] <span class="ot">&lt;-</span> <span class="st">"Roots &amp; tubers"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sorghum"</span>, <span class="st">"rice"</span>, <span class="st">"maize"</span>)] <span class="ot">&lt;-</span> <span class="st">"Cereals"</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"fruit"</span>, <span class="st">"banana"</span>)] <span class="ot">&lt;-</span> <span class="st">"Perennials"</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"beans"</span>, <span class="st">"soybeans"</span>)] <span class="ot">&lt;-</span> <span class="st">"Legumes"</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sugarcane"</span>)] <span class="ot">&lt;-</span> <span class="st">"Others"</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   label          count   prop
@@ -804,20 +696,16 @@ F1 score                        0.4891      0.7632               NA</code></pre>
 6 vegetables        97 0.116 </code></pre>
 </div>
 </div>
-</section>
-<section id="combine-crop-types-into-groups" class="level3">
-<h3 class="anchored" data-anchor-id="combine-crop-types-into-groups">Combine crop types into groups</h3>
-<p>African agriculture is often characterised by great diversity of crop types and varieties, and heterogeneity of crop types and farming practices in space. This can make mapping exercises more challenging than in more uniform and homogenous agricultural landscapes with large field sizes. Sometimes, the large number of crop types can mean that an aggregated approach can produce more useful outputs. In this case, crop classes are combined into their ‘crop groups’ based on the Indicative Crop Classification (ICC) developed by FAO in the <a href="https://www.fao.org/4/a0135e/a0135e00.htm">guidelines for agricultural censuses</a>. This approach is also adopted in the Joint Assessment for Crop Assessment and Monitoring <a href="https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf">guidelines for cropland and crop type definition and field data collection</a> <span class="citation" data-cites="defourny2014jecam">(<a href="#ref-defourny2014jecam" role="doc-biblioref">Defourny, Jarvis, and Blaes 2014</a>)</span>.</p>
-<p>In this workflow, crop types are aggregated into six crop groups. The <code>sits_reduce_imbalance</code> function is again used to produce a dataset where each class represents at least 10% of total observations.</p>
+<p>The <code>sits_reduce_imbalance</code> function is again used to produce a dataset where each class represents at least 10% of total observations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries_comb,</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">80</span>,</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries_comb,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">80</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   label          count  prop
@@ -835,88 +723,53 @@ F1 score                        0.4891      0.7632               NA</code></pre>
 <h3 class="anchored" data-anchor-id="perform-a-cross-validation-on-crop-groups">Perform a cross-validation on crop groups</h3>
 <p>The confusion matrix and accuracy statistics for the classification on crop groups show an overall accuracy value of 65%, and improvement over the individual crop type classification. Furthermore, each group has an F1 score greater than 0.5. Perennials (the majority of which could be assumed to be bananas based on the original reference data) and cereals are most accurately classified.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb<span class="ot">&lt;-</span> balanced_samples_comb <span class="sc">%&gt;%</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>rfor_model_comb <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>  balanced_samples_comb,</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
-<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples_comb,</span>
-<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
-<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
-<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
-<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb<span class="ot">&lt;-</span> balanced_samples_comb <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>rfor_model_comb <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  balanced_samples_comb,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples_comb,</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                 Reference
 Prediction       Cereals Legumes Others Roots &amp; tubers Perennials vegetables
-  Cereals            147      16      9             15         26         25
-  Legumes              5      44      7              7          0          3
-  Others               0      11     43             11          1          0
-  Roots &amp; tubers       3       7     11             43          2          0
-  Perennials          26       2      7              4         91         15
-  vegetables          15       0      3              0         14         54
+  Cereals            156      14     10              8         29         34
+  Legumes              2      45      9             10          0          4
+  Others               2       7     40             12          0          1
+  Roots &amp; tubers       0      12     14             45          2          0
+  Perennials          22       2      3              4         90         17
+  vegetables          14       0      4              1         13         41
 
 Overall Statistics
-                              
- Accuracy : 0.6327            
-   95% CI : ( 0.5948, 0.6694 )
-                              
-    Kappa : 0.5392            
+                             
+ Accuracy : 0.6252           
+   95% CI : ( 0.5872, 0.662 )
+                             
+    Kappa : 0.5286           
 
 Statistics by Class:
 
                      Class: Cereals Class: Legumes Class: Others
-Prod Acc (Recall)            0.7500         0.5500        0.5375
-User Acc (Precision)         0.6176         0.6667        0.6515
-F1 score                     0.6774         0.6027        0.5890
+Prod Acc (Recall)            0.7959         0.5625        0.5000
+User Acc (Precision)         0.6215         0.6429        0.6452
+F1 score                     0.6980         0.6000        0.5634
                      Class: Roots &amp; tubers Class: Perennials Class: vegetables
-Prod Acc (Recall)                   0.5375            0.6791            0.5567
-User Acc (Precision)                0.6515            0.6276            0.6279
-F1 score                            0.5890            0.6523            0.5902</code></pre>
+Prod Acc (Recall)                   0.5625            0.6716            0.4227
+User Acc (Precision)                0.6164            0.6522            0.5616
+F1 score                            0.5882            0.6618            0.4824</code></pre>
 </div>
 </div>
 </section>
@@ -926,636 +779,35 @@ F1 score                            0.5890            0.6523            0.5902</
 <p>Finally, a classified map can be produced based on the trained classification model. This process is memory hungry so the number of cores has been limited to 1. A garbage collect process is also initiated prior to classification by calling the <code>gc()</code> command. This maximises the volume of memory available for the classification process.</p>
 <p>The output of the <code>sits_classify</code> function is a <code>.tif</code> file of classification probabilities stored in the output directory provided to the function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           used  (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells  6392912 341.5    9652946  515.6   9652946  515.6
-Vcells 12452681  95.1  237010524 1808.3 462911177 3531.8</code></pre>
+Ncells  6392384 341.4    9652785  515.6   9652785  515.6
+Vcells 12453926  95.1  237009548 1808.3 462909272 3531.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>crop_probs <span class="ot">&lt;-</span> <span class="fu">sits_classify</span>(</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dea_s2_masked,</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_model =</span> rfor_model_comb,</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">1</span>,  </span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">16</span></span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>recovery mode: data already exists. To produce new data, change output_dir or version
-recovery mode: data already exists. To produce new data, change output_dir or version</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>crop_probs <span class="ot">&lt;-</span> <span class="fu">sits_classify</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dea_s2_masked,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_model =</span> rfor_model_comb,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">1</span>,  </span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">16</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The probability layers can be used to generate a classified map with labels showing the distribution of predicted crop groups in space.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>crop_class <span class="ot">&lt;-</span> <span class="fu">sits_label_classification</span>(</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> crop_probs,</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">4</span>,</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">12</span>,</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |                                                                      |   1%
-  |                                                                            
-  |=                                                                     |   1%
-  |                                                                            
-  |=                                                                     |   2%
-  |                                                                            
-  |==                                                                    |   2%
-  |                                                                            
-  |==                                                                    |   3%
-  |                                                                            
-  |===                                                                   |   4%
-  |                                                                            
-  |===                                                                   |   5%
-  |                                                                            
-  |====                                                                  |   5%
-  |                                                                            
-  |====                                                                  |   6%
-  |                                                                            
-  |=====                                                                 |   7%
-  |                                                                            
-  |=====                                                                 |   8%
-  |                                                                            
-  |======                                                                |   8%
-  |                                                                            
-  |======                                                                |   9%
-  |                                                                            
-  |=======                                                               |   9%
-  |                                                                            
-  |=======                                                               |  10%
-  |                                                                            
-  |=======                                                               |  11%
-  |                                                                            
-  |========                                                              |  11%
-  |                                                                            
-  |========                                                              |  12%
-  |                                                                            
-  |=========                                                             |  12%
-  |                                                                            
-  |=========                                                             |  13%
-  |                                                                            
-  |==========                                                            |  14%
-  |                                                                            
-  |==========                                                            |  15%
-  |                                                                            
-  |===========                                                           |  15%
-  |                                                                            
-  |===========                                                           |  16%
-  |                                                                            
-  |============                                                          |  17%
-  |                                                                            
-  |============                                                          |  18%
-  |                                                                            
-  |=============                                                         |  18%
-  |                                                                            
-  |=============                                                         |  19%
-  |                                                                            
-  |==============                                                        |  19%
-  |                                                                            
-  |==============                                                        |  20%
-  |                                                                            
-  |===============                                                       |  21%
-  |                                                                            
-  |===============                                                       |  22%
-  |                                                                            
-  |================                                                      |  22%
-  |                                                                            
-  |================                                                      |  23%
-  |                                                                            
-  |================                                                      |  24%
-  |                                                                            
-  |=================                                                     |  24%
-  |                                                                            
-  |=================                                                     |  25%
-  |                                                                            
-  |==================                                                    |  25%
-  |                                                                            
-  |==================                                                    |  26%
-  |                                                                            
-  |===================                                                   |  27%
-  |                                                                            
-  |===================                                                   |  28%
-  |                                                                            
-  |====================                                                  |  28%
-  |                                                                            
-  |====================                                                  |  29%
-  |                                                                            
-  |=====================                                                 |  29%
-  |                                                                            
-  |=====================                                                 |  30%
-  |                                                                            
-  |======================                                                |  31%
-  |                                                                            
-  |======================                                                |  32%
-  |                                                                            
-  |=======================                                               |  32%
-  |                                                                            
-  |=======================                                               |  33%
-  |                                                                            
-  |=======================                                               |  34%
-  |                                                                            
-  |========================                                              |  34%
-  |                                                                            
-  |========================                                              |  35%
-  |                                                                            
-  |=========================                                             |  35%
-  |                                                                            
-  |=========================                                             |  36%
-  |                                                                            
-  |==========================                                            |  37%
-  |                                                                            
-  |==========================                                            |  38%
-  |                                                                            
-  |===========================                                           |  38%
-  |                                                                            
-  |===========================                                           |  39%
-  |                                                                            
-  |============================                                          |  39%
-  |                                                                            
-  |============================                                          |  40%
-  |                                                                            
-  |=============================                                         |  41%
-  |                                                                            
-  |=============================                                         |  42%
-  |                                                                            
-  |==============================                                        |  42%
-  |                                                                            
-  |==============================                                        |  43%
-  |                                                                            
-  |===============================                                       |  44%
-  |                                                                            
-  |===============================                                       |  45%
-  |                                                                            
-  |================================                                      |  45%
-  |                                                                            
-  |================================                                      |  46%
-  |                                                                            
-  |=================================                                     |  47%
-  |                                                                            
-  |=================================                                     |  48%
-  |                                                                            
-  |==================================                                    |  48%
-  |                                                                            
-  |==================================                                    |  49%
-  |                                                                            
-  |===================================                                   |  49%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |===================================                                   |  51%
-  |                                                                            
-  |====================================                                  |  51%
-  |                                                                            
-  |====================================                                  |  52%
-  |                                                                            
-  |=====================================                                 |  52%
-  |                                                                            
-  |=====================================                                 |  53%
-  |                                                                            
-  |======================================                                |  54%
-  |                                                                            
-  |======================================                                |  55%
-  |                                                                            
-  |=======================================                               |  55%
-  |                                                                            
-  |=======================================                               |  56%
-  |                                                                            
-  |========================================                              |  57%
-  |                                                                            
-  |========================================                              |  58%
-  |                                                                            
-  |=========================================                             |  58%
-  |                                                                            
-  |=========================================                             |  59%
-  |                                                                            
-  |==========================================                            |  60%
-  |                                                                            
-  |==========================================                            |  61%
-  |                                                                            
-  |===========================================                           |  61%
-  |                                                                            
-  |===========================================                           |  62%
-  |                                                                            
-  |============================================                          |  62%
-  |                                                                            
-  |============================================                          |  63%
-  |                                                                            
-  |=============================================                         |  64%
-  |                                                                            
-  |=============================================                         |  65%
-  |                                                                            
-  |==============================================                        |  65%
-  |                                                                            
-  |==============================================                        |  66%
-  |                                                                            
-  |===============================================                       |  66%
-  |                                                                            
-  |===============================================                       |  67%
-  |                                                                            
-  |===============================================                       |  68%
-  |                                                                            
-  |================================================                      |  68%
-  |                                                                            
-  |================================================                      |  69%
-  |                                                                            
-  |=================================================                     |  70%
-  |                                                                            
-  |=================================================                     |  71%
-  |                                                                            
-  |==================================================                    |  71%
-  |                                                                            
-  |==================================================                    |  72%
-  |                                                                            
-  |===================================================                   |  72%
-  |                                                                            
-  |===================================================                   |  73%
-  |                                                                            
-  |====================================================                  |  74%
-  |                                                                            
-  |====================================================                  |  75%
-  |                                                                            
-  |=====================================================                 |  75%
-  |                                                                            
-  |=====================================================                 |  76%
-  |                                                                            
-  |======================================================                |  76%
-  |                                                                            
-  |======================================================                |  77%
-  |                                                                            
-  |======================================================                |  78%
-  |                                                                            
-  |=======================================================               |  78%
-  |                                                                            
-  |=======================================================               |  79%
-  |                                                                            
-  |========================================================              |  80%
-  |                                                                            
-  |========================================================              |  81%
-  |                                                                            
-  |=========================================================             |  81%
-  |                                                                            
-  |=========================================================             |  82%
-  |                                                                            
-  |==========================================================            |  82%
-  |                                                                            
-  |==========================================================            |  83%
-  |                                                                            
-  |===========================================================           |  84%
-  |                                                                            
-  |===========================================================           |  85%
-  |                                                                            
-  |============================================================          |  85%
-  |                                                                            
-  |============================================================          |  86%
-  |                                                                            
-  |=============================================================         |  87%
-  |                                                                            
-  |=============================================================         |  88%
-  |                                                                            
-  |==============================================================        |  88%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |===============================================================       |  89%
-  |                                                                            
-  |===============================================================       |  90%
-  |                                                                            
-  |===============================================================       |  91%
-  |                                                                            
-  |================================================================      |  91%
-  |                                                                            
-  |================================================================      |  92%
-  |                                                                            
-  |=================================================================     |  92%
-  |                                                                            
-  |=================================================================     |  93%
-  |                                                                            
-  |==================================================================    |  94%
-  |                                                                            
-  |==================================================================    |  95%
-  |                                                                            
-  |===================================================================   |  95%
-  |                                                                            
-  |===================================================================   |  96%
-  |                                                                            
-  |====================================================================  |  97%
-  |                                                                            
-  |====================================================================  |  98%
-  |                                                                            
-  |===================================================================== |  98%
-  |                                                                            
-  |===================================================================== |  99%
-  |                                                                            
-  |======================================================================|  99%
-  |                                                                            
-  |======================================================================| 100%
-
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |                                                                      |   1%
-  |                                                                            
-  |=                                                                     |   1%
-  |                                                                            
-  |=                                                                     |   2%
-  |                                                                            
-  |==                                                                    |   2%
-  |                                                                            
-  |==                                                                    |   3%
-  |                                                                            
-  |===                                                                   |   4%
-  |                                                                            
-  |===                                                                   |   5%
-  |                                                                            
-  |====                                                                  |   5%
-  |                                                                            
-  |====                                                                  |   6%
-  |                                                                            
-  |=====                                                                 |   7%
-  |                                                                            
-  |=====                                                                 |   8%
-  |                                                                            
-  |======                                                                |   8%
-  |                                                                            
-  |======                                                                |   9%
-  |                                                                            
-  |=======                                                               |   9%
-  |                                                                            
-  |=======                                                               |  10%
-  |                                                                            
-  |=======                                                               |  11%
-  |                                                                            
-  |========                                                              |  11%
-  |                                                                            
-  |========                                                              |  12%
-  |                                                                            
-  |=========                                                             |  12%
-  |                                                                            
-  |=========                                                             |  13%
-  |                                                                            
-  |==========                                                            |  14%
-  |                                                                            
-  |==========                                                            |  15%
-  |                                                                            
-  |===========                                                           |  15%
-  |                                                                            
-  |===========                                                           |  16%
-  |                                                                            
-  |============                                                          |  17%
-  |                                                                            
-  |============                                                          |  18%
-  |                                                                            
-  |=============                                                         |  18%
-  |                                                                            
-  |=============                                                         |  19%
-  |                                                                            
-  |==============                                                        |  19%
-  |                                                                            
-  |==============                                                        |  20%
-  |                                                                            
-  |===============                                                       |  21%
-  |                                                                            
-  |===============                                                       |  22%
-  |                                                                            
-  |================                                                      |  22%
-  |                                                                            
-  |================                                                      |  23%
-  |                                                                            
-  |================                                                      |  24%
-  |                                                                            
-  |=================                                                     |  24%
-  |                                                                            
-  |=================                                                     |  25%
-  |                                                                            
-  |==================                                                    |  25%
-  |                                                                            
-  |==================                                                    |  26%
-  |                                                                            
-  |===================                                                   |  27%
-  |                                                                            
-  |===================                                                   |  28%
-  |                                                                            
-  |====================                                                  |  28%
-  |                                                                            
-  |====================                                                  |  29%
-  |                                                                            
-  |=====================                                                 |  29%
-  |                                                                            
-  |=====================                                                 |  30%
-  |                                                                            
-  |======================                                                |  31%
-  |                                                                            
-  |======================                                                |  32%
-  |                                                                            
-  |=======================                                               |  32%
-  |                                                                            
-  |=======================                                               |  33%
-  |                                                                            
-  |=======================                                               |  34%
-  |                                                                            
-  |========================                                              |  34%
-  |                                                                            
-  |========================                                              |  35%
-  |                                                                            
-  |=========================                                             |  35%
-  |                                                                            
-  |=========================                                             |  36%
-  |                                                                            
-  |==========================                                            |  37%
-  |                                                                            
-  |==========================                                            |  38%
-  |                                                                            
-  |===========================                                           |  38%
-  |                                                                            
-  |===========================                                           |  39%
-  |                                                                            
-  |============================                                          |  39%
-  |                                                                            
-  |============================                                          |  40%
-  |                                                                            
-  |=============================                                         |  41%
-  |                                                                            
-  |=============================                                         |  42%
-  |                                                                            
-  |==============================                                        |  42%
-  |                                                                            
-  |==============================                                        |  43%
-  |                                                                            
-  |===============================                                       |  44%
-  |                                                                            
-  |===============================                                       |  45%
-  |                                                                            
-  |================================                                      |  45%
-  |                                                                            
-  |================================                                      |  46%
-  |                                                                            
-  |=================================                                     |  47%
-  |                                                                            
-  |=================================                                     |  48%
-  |                                                                            
-  |==================================                                    |  48%
-  |                                                                            
-  |==================================                                    |  49%
-  |                                                                            
-  |===================================                                   |  49%
-  |                                                                            
-  |===================================                                   |  50%
-  |                                                                            
-  |===================================                                   |  51%
-  |                                                                            
-  |====================================                                  |  51%
-  |                                                                            
-  |====================================                                  |  52%
-  |                                                                            
-  |=====================================                                 |  52%
-  |                                                                            
-  |=====================================                                 |  53%
-  |                                                                            
-  |======================================                                |  54%
-  |                                                                            
-  |======================================                                |  55%
-  |                                                                            
-  |=======================================                               |  55%
-  |                                                                            
-  |=======================================                               |  56%
-  |                                                                            
-  |========================================                              |  57%
-  |                                                                            
-  |========================================                              |  58%
-  |                                                                            
-  |=========================================                             |  58%
-  |                                                                            
-  |=========================================                             |  59%
-  |                                                                            
-  |==========================================                            |  60%
-  |                                                                            
-  |==========================================                            |  61%
-  |                                                                            
-  |===========================================                           |  61%
-  |                                                                            
-  |===========================================                           |  62%
-  |                                                                            
-  |============================================                          |  62%
-  |                                                                            
-  |============================================                          |  63%
-  |                                                                            
-  |=============================================                         |  64%
-  |                                                                            
-  |=============================================                         |  65%
-  |                                                                            
-  |==============================================                        |  65%
-  |                                                                            
-  |==============================================                        |  66%
-  |                                                                            
-  |===============================================                       |  66%
-  |                                                                            
-  |===============================================                       |  67%
-  |                                                                            
-  |===============================================                       |  68%
-  |                                                                            
-  |================================================                      |  68%
-  |                                                                            
-  |================================================                      |  69%
-  |                                                                            
-  |=================================================                     |  70%
-  |                                                                            
-  |=================================================                     |  71%
-  |                                                                            
-  |==================================================                    |  71%
-  |                                                                            
-  |==================================================                    |  72%
-  |                                                                            
-  |===================================================                   |  72%
-  |                                                                            
-  |===================================================                   |  73%
-  |                                                                            
-  |====================================================                  |  74%
-  |                                                                            
-  |====================================================                  |  75%
-  |                                                                            
-  |=====================================================                 |  75%
-  |                                                                            
-  |=====================================================                 |  76%
-  |                                                                            
-  |======================================================                |  76%
-  |                                                                            
-  |======================================================                |  77%
-  |                                                                            
-  |======================================================                |  78%
-  |                                                                            
-  |=======================================================               |  78%
-  |                                                                            
-  |=======================================================               |  79%
-  |                                                                            
-  |========================================================              |  80%
-  |                                                                            
-  |========================================================              |  81%
-  |                                                                            
-  |=========================================================             |  81%
-  |                                                                            
-  |=========================================================             |  82%
-  |                                                                            
-  |==========================================================            |  82%
-  |                                                                            
-  |==========================================================            |  83%
-  |                                                                            
-  |===========================================================           |  84%
-  |                                                                            
-  |===========================================================           |  85%
-  |                                                                            
-  |============================================================          |  85%
-  |                                                                            
-  |============================================================          |  86%
-  |                                                                            
-  |=============================================================         |  87%
-  |                                                                            
-  |=============================================================         |  88%
-  |                                                                            
-  |==============================================================        |  88%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |===============================================================       |  89%
-  |                                                                            
-  |===============================================================       |  90%
-  |                                                                            
-  |===============================================================       |  91%
-  |                                                                            
-  |================================================================      |  91%
-  |                                                                            
-  |================================================================      |  92%
-  |                                                                            
-  |=================================================================     |  92%
-  |                                                                            
-  |=================================================================     |  93%
-  |                                                                            
-  |==================================================================    |  94%
-  |                                                                            
-  |==================================================================    |  95%
-  |                                                                            
-  |===================================================================   |  95%
-  |                                                                            
-  |===================================================================   |  96%
-  |                                                                            
-  |====================================================================  |  97%
-  |                                                                            
-  |====================================================================  |  98%
-  |                                                                            
-  |===================================================================== |  98%
-  |                                                                            
-  |===================================================================== |  99%
-  |                                                                            
-  |======================================================================|  99%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the thematic map</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_class, <span class="at">legend_position=</span><span class="st">"outside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-progress="false">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>crop_class <span class="ot">&lt;-</span> <span class="fu">sits_label_classification</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> crop_probs,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">4</span>,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">12</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress=</span><span class="cn">FALSE</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the thematic map</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_class, <span class="at">legend_position=</span><span class="st">"outside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in .message_warnings_colors_get(missing, palette): missing colors for
 labelsCereals, Legumes, Others, Perennials, Roots &amp; tubers, vegetables</code></pre>
