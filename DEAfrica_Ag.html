@@ -144,8 +144,8 @@ div.csl-indent {
 </section>
 <section id="digital-earth-africa-products-and-services" class="level2">
 <h2 class="anchored" data-anchor-id="digital-earth-africa-products-and-services">Digital Earth Africa products and services</h2>
-<p>Digital Earth Africa provides open access to over 80 spatial datasets covering the African continent. They cover thematics including loand cover, coasts, agriculture, topography, water, and vegetation. These datasets can be explored in several platforms. The <a href="https://explorer.digitalearth.africa/products">Digital Earth Africa Explorer</a> displays metadata for each dataset, including availability in space and time. It also enables download of single band .tif files.</p>
-<p>Digital Earth Africa data can be visualised in the Digital Earth Africa Maps platform. This platform also supports basic visual analysis including differencing and comparison</p>
+<p>Digital Earth Africa provides open access to over 80 spatial datasets covering the African continent. They cover thematics including land cover, coasts, agriculture, topography, water, and vegetation. These datasets can be explored in several platforms. The <a href="https://explorer.digitalearth.africa/products">Digital Earth Africa Explorer</a> displays metadata for each dataset, including availability in space and time. It also enables download of single band .tif files.</p>
+<p>Digital Earth Africa data can be visualised in the Digital Earth Africa Maps platform. This platform also supports basic visual analysis including differencing and comparison.</p>
 <p>The Digital Earth Africa Sandbox is a JupyterHub computing environment where users can interact with Digital Earth Africa data using Python. The Sandbox provides a direct connection to the Digital Earth Africa implementation of the Open Data Cube, so datasets can easily be queried.</p>
 <p>Digital Earth Africa data is also retrievable using the STAC library through packages such as <code>odc-stac</code> (Python) and <code>rstac</code> (R). Digital Earth Africa maintains a repository of odc-stac examples. This chapter uses the <code>sits</code> R package to access and analyse Digital Earth Africa data for the purposes of agricultural mapping and monitoring.</p>
 </section>
@@ -165,7 +165,7 @@ div.csl-indent {
 <li><p>Rolling three-month <a href="https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html">geomedian composite images</a> for Sentinel-2 (<code>GM-S2-ROLLING</code>)</p></li>
 <li><p>Semi-annual (six monthly) <a href="https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html">geomedian composite images</a> for Sentinel-2 (<code>GM-S2-SEMIANNUAL</code>)</p></li>
 </ul>
-<p>Digital Earth Africa platforms are built on the Open Data Cube which uses Python for many applications. However, the sits package builds upon the rstac package which integrates with Digital Earth Africa through Spatio-Temporal Asset Catalogs (STAC). Digital Earth Africa data can therefore be loaded into cubes and other forms amenable to analysis in R.</p>
+<p>Digital Earth Africa platforms are built on the Open Data Cube which uses Python for many applications. However, the <code>sits</code> package builds upon the <code>rstac</code> package which integrates with Digital Earth Africa through Spatio-Temporal Asset Catalogs (STAC). Digital Earth Africa data can therefore be loaded into cubes and other forms amenable to analysis in R.</p>
 <p>The analytical component of the chapter begins with loading packages required for the crop type mapping workflow.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sits)           <span class="co"># satellite image time series package</span></span>
@@ -426,28 +426,50 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">writeRaster</span>(<span class="fu">as.list</span>(<span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">'data/tiles'</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)[x]))[[i]],<span class="fu">paste</span>(<span class="st">"data/masked/"</span>,<span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">1</span>,<span class="dv">15</span>), dea_s2_cube<span class="sc">$</span>tile[x], <span class="fu">str_sub</span>(<span class="fu">names</span>(mosaic_rast_masked)[i], <span class="dv">22</span>),<span class="st">".tif"</span>, <span class="at">sep=</span><span class="st">""</span>), <span class="at">overwrite=</span><span class="cn">TRUE</span>)</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+|---------|---------|---------|---------|
+=========================================
+                                          
+
+|---------|---------|---------|---------|
+=========================================
+                                          
+
+|---------|---------|---------|---------|
+=========================================
+                                          
+
+|---------|---------|---------|---------|
+=========================================
+                                          
+
+|---------|---------|---------|---------|
+=========================================
+                                          </code></pre>
+</div>
 </div>
 </section>
 <section id="create-a-new-data-cube" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-new-data-cube">Create a new data cube</h3>
 <p>A new data cube needs to be created which refers to the masked surface reflectance data. This cube will be created from local files, so the relevant directory is specified in the <code>sits_cube</code> function. The <code>parse_info</code> argument specifies how the filenames can be read. Other parameters like the period and region of interest are the same as the original GeoMAD data cube.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dea_s2_masked <span class="ot">&lt;-</span> <span class="fu">sits_cube</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">"DEAFRICA"</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collection =</span> <span class="st">"GM-S2-ANNUAL"</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_dir =</span> <span class="st">"data/masked"</span>,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"SMAD"</span>, <span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B08"</span>, <span class="st">"B11"</span>),</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="st">"2020-01-01"</span>,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_date =</span> <span class="st">"2020-12-30"</span>,</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">roi =</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(rwa_2020)), <span class="st">"EPSG:6933"</span>),</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs=</span><span class="st">"EPSG:6933"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">parse_info =</span> <span class="fu">c</span>(<span class="st">"satellite"</span>, <span class="st">"sensor"</span>, <span class="st">"tile"</span>, <span class="st">"date"</span>, <span class="st">"band"</span>),</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dea_s2_masked <span class="ot">&lt;-</span> <span class="fu">sits_cube</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">source =</span> <span class="st">"DEAFRICA"</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">collection =</span> <span class="st">"GM-S2-ANNUAL"</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data_dir =</span> <span class="st">"data/masked"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"SMAD"</span>, <span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B08"</span>, <span class="st">"B11"</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">start_date =</span> <span class="st">"2020-01-01"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">end_date =</span> <span class="st">"2020-12-30"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">roi =</span> <span class="fu">st_transform</span>(<span class="fu">st_as_sfc</span>(<span class="fu">st_bbox</span>(rwa_2020)), <span class="st">"EPSG:6933"</span>),</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">crs=</span><span class="st">"EPSG:6933"</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">parse_info =</span> <span class="fu">c</span>(<span class="st">"satellite"</span>, <span class="st">"sensor"</span>, <span class="st">"tile"</span>, <span class="st">"date"</span>, <span class="st">"band"</span>),</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plotting the masked data cube in true colour shows the effect of masking. Now, the surface reflectance data relates only to cropland (in accordance with the Digital Earth Africa cropland extent map), and crop type mapping can proceed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_masked, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dea_s2_masked, <span class="at">red =</span> <span class="st">"B04"</span>, <span class="at">blue =</span> <span class="st">"B03"</span>, <span class="at">green =</span> <span class="st">"B02"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -467,18 +489,18 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The code chunk below removes some masking objects that are no longer required from memory with the <code>rm()</code> function.</p>
 <p>Once <code>NA</code> values are removed, there are 13 crop type classes of which 47% are maize. The reference data is quite unbalanced with numerous classes each accounting for less than 5% of the total data volume.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(crop_class, crop_mask_local, crop_mask, crop_mask_mos)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>rwa_2020_crops <span class="ot">&lt;-</span> rwa_2020 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="st">"Type of Cr"</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>tseries <span class="ot">&lt;-</span> <span class="fu">sits_get_data</span>(</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube=</span>dea_s2_masked,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_attr =</span> <span class="st">"Type of Cr"</span>,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">samples =</span> rwa_2020_crops</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(crop_class, crop_mask_local, crop_mask, crop_mask_mos)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>rwa_2020_crops <span class="ot">&lt;-</span> rwa_2020 <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(<span class="st">"Type of Cr"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>tseries <span class="ot">&lt;-</span> <span class="fu">sits_get_data</span>(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube=</span>dea_s2_masked,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">label_attr =</span> <span class="st">"Type of Cr"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">samples =</span> rwa_2020_crops</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13 × 3
    label          count    prop
@@ -501,14 +523,14 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <p>The <code>sits</code> function <a href="https://rdrr.io/cran/sits/man/sits_reduce_imbalance.html"><code>reduce_imbalance</code></a> makes corrections to imbalanced training data by over and under sampling. Self organised mapping (SOM) is used for under sampling and synthetic minority oversampling technique (SMOTE) is used for over sampling <span class="citation" data-cites="chawla2002smote">Santos et al. (<a href="#ref-santos2021quality" role="doc-biblioref">2021</a>)</span>. Values are entered for the number of samples to over and under sample.</p>
 <p>The result of the imbalance reduction is returned in the output and shows that each class accounts for at least 5% of the observations. If there was a particular interest in mapping uncommon crops, there could be further balance correction undertaken. Several methods have been proposed and investigated for dealing with class imbalance problems in crop type mapping <span class="citation" data-cites="WALDNER2019111375">(<a href="#ref-WALDNER2019111375" role="doc-biblioref">Waldner et al. 2019</a>)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">50</span>,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">50</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 13 × 3
    label          count   prop
@@ -531,21 +553,21 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 </section>
 <section id="train-random-forest-model" class="level3">
 <h3 class="anchored" data-anchor-id="train-random-forest-model">Train random forest model</h3>
-<p>Following correction of unbalanced samples, the training data can be used to prepare a classification model. The <a href="https://rdrr.io/cran/sits/man/sits_train.html"><code>sits_train</code></a> function supports several machine learning algorithms. In this case, random forest is used. Random Forest is a non-parametric ensemble learning method that, while often outperformed by deep learning models in very large or complex data, offers greater interpretability through tools such as variable importance metrics and partial dependence plots.</p>
+<p>Following correction of unbalanced samples, the training data can be used to prepare a classification model. The <a href="https://rdrr.io/cran/sits/man/sits_train.html"><code>sits_train</code></a> function supports several machine learning algorithms. In this case, random forest is used. Random forest is a non-parametric ensemble learning method that, while often outperformed by deep learning models in very large or complex data, offers greater interpretability through tools such as variable importance metrics and partial dependence plots.</p>
 <p>Prior to model training, the time series data itself is cleaned. This removes <code>NA</code> values from the <code>tibble</code> objects nested within the <code>balanced_samples</code> tibble that may arise from missing pixels or other issues.</p>
 <p>Plotting the model object shows the distribution of minimal depth and its mean. Minimal depth refers to the earliest point at which a variable is used in the decision tree. That is, the shortest path from the root of the tree to the first node where the variable is used for splitting. The bars in the plot show the distribution of minimal depth among the 100 trees in the random forest, and the mean minimal depth value is plotted and annotated. A lower minimal depth value means the variable is used earlier in the tree and can therefore be interpreted as being more important for distinguishing between classes. Variables with high minimal depth values could be omitted from the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> balanced_samples <span class="sc">%&gt;%</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>rfor_model <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  balanced_samples,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfor_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>balanced_samples <span class="ot">&lt;-</span> balanced_samples <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>rfor_model <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  balanced_samples,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfor_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -558,76 +580,76 @@ assets, bbox, collection, geometry, id, links, properties, stac_extensions, stac
 <section id="perform-a-cross-validation" class="level3">
 <h3 class="anchored" data-anchor-id="perform-a-cross-validation">Perform a cross-validation</h3>
 <p>The <code>sits</code> package provides a function for performing cross-validation as an accuracy assessment for classification models. The k-fold cross validation method splits the data into k-subsets. For each subset, a sample of data is withheld while the model is trained on all other subsets and then validated on the subset that was withheld. This process returns a confusion matrix and accuracy statistics.</p>
-<p>The overall accuracy statistic of 61.4% might be considered acceptable, especially given the large number (13) of classes and class imbalance. However, some classes, such as beans and sorghum, have quite low precision, recall and F1 values, which indicate how accurately individual classes are classified. If there was a particular interest in mapping these specific crop types, further class imbalance treatments or other approaches, such as introducing further predictor variable, might be considered. In this case, the next step will be combining classes to reduce issues associated with class imbalance.</p>
+<p>The overall accuracy statistic of 61.4% might be considered acceptable, especially given the large number (13) of classes and class imbalance. However, some classes, such as beans and sorghum, have quite low precision, recall and F1 values, which indicate how accurately individual classes are classified. If there was a particular interest in mapping these specific crop types, further class imbalance treatments or other approaches, such as introducing further predictor variables, might be considered. In this case, the next step will be combining classes to reduce issues associated with class imbalance.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress =</span> <span class="cn">FALSE</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress =</span> <span class="cn">FALSE</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>rfor_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                 Reference
 Prediction       maize beans cassava fruit irishpotatoes Others soybeans
-  maize            131     9       5     5             4     13       11
-  beans              1    15       0     3             2      5        3
-  cassava            8     1      40     0             0      9        0
-  fruit              0     0       0    31             1      1        2
-  irishpotatoes      1     2       0     4            39      6        1
-  Others             0    10       3     1             3     12        1
-  soybeans           7     7       0     1             0      3       31
+  maize            145    13       4     6             3     11        9
+  beans              0    14       0     2             0      3        1
+  cassava            6     4      37     0             1      6        0
+  fruit              0     0       0    19             0      1        1
+  irishpotatoes      2     2       0     1            39      5        6
+  Others             1     7       4     3             2     21        0
+  soybeans           5     6       0     0             3      1       31
+  sweet_potatoes     0     2       0     1             0      2        0
+  banana             8     1       5     5             0      0        1
+  vegetables        14     0       0     8             0      0        0
+  sorghum           12     1       0     1             1      0        1
+  rice               3     0       0     4             1      0        0
   sugarcane          0     0       0     0             0      0        0
-  sweet_potatoes     3     1       0     0             0      0        0
-  banana             9     1       2     2             0      1        0
-  vegetables        18     1       0     3             1      0        1
-  sorghum           14     3       0     0             0      0        0
-  rice               4     0       0     0             0      0        0
                 Reference
-Prediction       sugarcane sweet_potatoes banana vegetables sorghum rice
-  maize                  0              3     16         36      33    9
-  beans                  0              0      0          0       1    0
-  cassava                0              0      4          1       0    1
-  fruit                  1              0      0          0       0    2
-  irishpotatoes          0              0      1          0       1    0
-  Others                 0              0      2          0       0    0
-  soybeans               0              0      1          1       2    0
-  sugarcane              0              0      0          0       0    0
-  sweet_potatoes         0             44      2          2       0    4
-  banana                 0              2     73          3       5    3
-  vegetables             2              0      5         52       2    3
-  sorghum                0              0      3          1       7    1
-  rice                   0              1      0          1       1   58
+Prediction       sweet_potatoes banana vegetables sorghum rice sugarcane
+  maize                       0     25         43      32    9         0
+  beans                       0      0          0       0    0         0
+  cassava                     0      5          0       0    0         0
+  fruit                       0      0          2       0    0         2
+  irishpotatoes               0      0          2       3    0         0
+  Others                      0      0          0       0    0         0
+  soybeans                    0      0          2       1    0         0
+  sweet_potatoes             48      1          1       0    6         0
+  banana                      0     70          7       4    3         0
+  vegetables                  0      3         37       2    5         0
+  sorghum                     0      3          1       9    0         0
+  rice                        2      0          2       1   58         1
+  sugarcane                   0      0          0       0    0         0
 
 Overall Statistics
-                             
- Accuracy : 0.6016           
-   95% CI : ( 0.5685, 0.634 )
-                             
-    Kappa : 0.5458           
+                              
+ Accuracy : 0.5959            
+   95% CI : ( 0.5628, 0.6284 )
+                              
+    Kappa : 0.5372            
 
 Statistics by Class:
 
                      Class: maize Class: beans Class: cassava Class: fruit
-Prod Acc (Recall)          0.6684        0.300         0.8000       0.6200
-User Acc (Precision)       0.4764        0.500         0.6250       0.8158
-F1 score                   0.5563        0.375         0.7018       0.7045
+Prod Acc (Recall)          0.7398         0.28         0.7400       0.3800
+User Acc (Precision)       0.4833         0.70         0.6271       0.7600
+F1 score                   0.5847         0.40         0.6789       0.5067
                      Class: irishpotatoes Class: Others Class: soybeans
-Prod Acc (Recall)                  0.7800        0.2400          0.6200
-User Acc (Precision)               0.7091        0.3750          0.5849
-F1 score                           0.7429        0.2927          0.6019
-                     Class: sugarcane Class: sweet_potatoes Class: banana
-Prod Acc (Recall)                   0                0.8800        0.6822
-User Acc (Precision)              NaN                0.7857        0.7228
-F1 score                           NA                0.8302        0.7019
-                     Class: vegetables Class: sorghum Class: rice
-Prod Acc (Recall)               0.5361         0.1346      0.7160
-User Acc (Precision)            0.5909         0.2414      0.8923
-F1 score                        0.5622         0.1728      0.7945</code></pre>
+Prod Acc (Recall)                  0.7800        0.4200          0.6200
+User Acc (Precision)               0.6500        0.5526          0.6327
+F1 score                           0.7091        0.4773          0.6263
+                     Class: sweet_potatoes Class: banana Class: vegetables
+Prod Acc (Recall)                   0.9600        0.6542            0.3814
+User Acc (Precision)                0.7869        0.6731            0.5362
+F1 score                            0.8649        0.6635            0.4458
+                     Class: sorghum Class: rice Class: sugarcane
+Prod Acc (Recall)            0.1731      0.7160                0
+User Acc (Precision)         0.3103      0.8056              NaN
+F1 score                     0.2222      0.7582               NA</code></pre>
 </div>
 </div>
 </section>
@@ -636,19 +658,19 @@ F1 score                        0.5622         0.1728      0.7945</code></pre>
 <p>African agriculture is often characterised by great diversity of crop types and varieties, and heterogeneity of crop types and farming practices in space. This can make mapping exercises more challenging than in more uniform and homogenous agricultural landscapes with large field sizes. Sometimes, the large number of crop types can mean that an aggregated approach can produce more useful outputs. In this case, crop classes are combined into their ‘crop groups’ based on the Indicative Crop Classification (ICC) developed by FAO in the <a href="https://www.fao.org/4/a0135e/a0135e00.htm">guidelines for agricultural censuses</a>. This approach is also adopted in the Joint Assessment for Crop Assessment and Monitoring <a href="https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf">guidelines for cropland and crop type definition and field data collection</a> <span class="citation" data-cites="defourny2014jecam">(<a href="#ref-defourny2014jecam" role="doc-biblioref">Defourny, Jarvis, and Blaes 2014</a>)</span>.</p>
 <p>In this workflow, crop types are aggregated into six crop groups.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>tseries_comb <span class="ot">&lt;-</span> tseries</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"irishpotatoes"</span>, <span class="st">"sweet_potatoes"</span>, <span class="st">"cassava"</span>)] <span class="ot">&lt;-</span> <span class="st">"Roots &amp; tubers"</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sorghum"</span>, <span class="st">"rice"</span>, <span class="st">"maize"</span>)] <span class="ot">&lt;-</span> <span class="st">"Cereals"</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"fruit"</span>, <span class="st">"banana"</span>)] <span class="ot">&lt;-</span> <span class="st">"Perennials"</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"beans"</span>, <span class="st">"soybeans"</span>)] <span class="ot">&lt;-</span> <span class="st">"Legumes"</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sugarcane"</span>)] <span class="ot">&lt;-</span> <span class="st">"Others"</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tseries_comb <span class="ot">&lt;-</span> tseries</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"irishpotatoes"</span>, <span class="st">"sweet_potatoes"</span>, <span class="st">"cassava"</span>)] <span class="ot">&lt;-</span> <span class="st">"Roots &amp; tubers"</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sorghum"</span>, <span class="st">"rice"</span>, <span class="st">"maize"</span>)] <span class="ot">&lt;-</span> <span class="st">"Cereals"</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"fruit"</span>, <span class="st">"banana"</span>)] <span class="ot">&lt;-</span> <span class="st">"Perennials"</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"beans"</span>, <span class="st">"soybeans"</span>)] <span class="ot">&lt;-</span> <span class="st">"Legumes"</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>tseries_comb<span class="sc">$</span>label[tseries_comb<span class="sc">$</span>label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"sugarcane"</span>)] <span class="ot">&lt;-</span> <span class="st">"Others"</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tseries_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   label          count   prop
@@ -663,14 +685,14 @@ F1 score                        0.5622         0.1728      0.7945</code></pre>
 </div>
 <p>The <code>sits_reduce_imbalance</code> function is again used to produce a dataset where each class represents at least 10% of total observations.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries_comb,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">80</span>,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb <span class="ot">&lt;-</span> <span class="fu">sits_reduce_imbalance</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> tseries_comb,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_over =</span> <span class="dv">80</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_samples_under =</span> <span class="dv">150</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show summary of balanced samples</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(balanced_samples_comb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   label          count  prop
@@ -688,53 +710,53 @@ F1 score                        0.5622         0.1728      0.7945</code></pre>
 <h3 class="anchored" data-anchor-id="perform-a-cross-validation-on-crop-groups">Perform a cross-validation on crop groups</h3>
 <p>The confusion matrix and accuracy statistics for the classification on crop groups show an overall accuracy value of 65%, and improvement over the individual crop type classification. Furthermore, each group has an F1 score greater than 0.5. Perennials (the majority of which could be assumed to be bananas based on the original reference data) and cereals are most accurately classified.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb<span class="ot">&lt;-</span> balanced_samples_comb <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>rfor_model_comb <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  balanced_samples_comb,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples_comb,</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>balanced_samples_comb<span class="ot">&lt;-</span> balanced_samples_comb <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_series =</span> <span class="fu">map</span>(time_series, <span class="sc">~</span> <span class="fu">drop_na</span>(.x))) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">map_lgl</span>(time_series, <span class="sc">~</span> <span class="fu">nrow</span>(.x) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>rfor_model_comb <span class="ot">&lt;-</span> <span class="fu">sits_train</span>(</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  balanced_samples_comb,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>()</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa <span class="ot">&lt;-</span> <span class="fu">sits_kfold_validate</span>(</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">samples =</span> balanced_samples_comb,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">folds =</span> <span class="dv">5</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">progress =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ml_method =</span> <span class="fu">sits_rfor</span>(),</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">multicores =</span> <span class="dv">2</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>rfor_comb_validate_rwa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
                 Reference
 Prediction       Cereals Legumes Others Roots &amp; tubers Perennials vegetables
-  Cereals            141      15      7             10         26         30
-  Legumes              2      51      7              7          0          2
-  Others               0       9     43             19          0          0
-  Roots &amp; tubers       1       5     16             43          3          0
-  Perennials          29       0      2              1         92         11
-  vegetables          23       0      5              0         13         54
+  Cereals            153      13      4             12         29         30
+  Legumes              2      50     10              5          0          2
+  Others               2       9     42             18          0          0
+  Roots &amp; tubers       2       5     16             43          1          1
+  Perennials          24       2      5              2         91         14
+  vegetables          13       1      3              0         13         50
 
 Overall Statistics
                               
- Accuracy : 0.6357            
-   95% CI : ( 0.5979, 0.6723 )
+ Accuracy : 0.6432            
+   95% CI : ( 0.6055, 0.6796 )
                               
-    Kappa : 0.5448            
+    Kappa : 0.5525            
 
 Statistics by Class:
 
                      Class: Cereals Class: Legumes Class: Others
-Prod Acc (Recall)            0.7194         0.6375        0.5375
-User Acc (Precision)         0.6157         0.7391        0.6056
-F1 score                     0.6635         0.6846        0.5695
+Prod Acc (Recall)            0.7806         0.6250        0.5250
+User Acc (Precision)         0.6349         0.7246        0.5915
+F1 score                     0.7002         0.6711        0.5563
                      Class: Roots &amp; tubers Class: Perennials Class: vegetables
-Prod Acc (Recall)                   0.5375            0.6866            0.5567
-User Acc (Precision)                0.6324            0.6815            0.5684
-F1 score                            0.5811            0.6840            0.5625</code></pre>
+Prod Acc (Recall)                   0.5375            0.6791            0.5155
+User Acc (Precision)                0.6324            0.6594            0.6250
+F1 score                            0.5811            0.6691            0.5650</code></pre>
 </div>
 </div>
 </section>
@@ -744,35 +766,35 @@ F1 score                            0.5811            0.6840            0.5625</
 <p>Finally, a classified map can be produced based on the trained classification model. This process is memory hungry so the number of cores has been limited to 1. A garbage collect process is also initiated prior to classification by calling the <code>gc()</code> command. This maximises the volume of memory available for the classification process.</p>
 <p>The output of the <code>sits_classify</code> function is a <code>.tif</code> file of classification probabilities stored in the output directory provided to the function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           used  (Mb) gc trigger   (Mb)  max used   (Mb)
-Ncells  6392326 341.4    9652785  515.6   9652785  515.6
-Vcells 12450820  95.0  237009600 1808.3 462909373 3531.8</code></pre>
+Ncells  6392335 341.4    9652794  515.6   9652794  515.6
+Vcells 12451596  95.0  237009601 1808.3 462909376 3531.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>crop_probs <span class="ot">&lt;-</span> <span class="fu">sits_classify</span>(</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dea_s2_masked,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_model =</span> rfor_model_comb,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">1</span>,  </span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">16</span>,</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>crop_probs <span class="ot">&lt;-</span> <span class="fu">sits_classify</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dea_s2_masked,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ml_model =</span> rfor_model_comb,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">1</span>,  </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">16</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress =</span> <span class="cn">FALSE</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The probability layers can be used to generate a classified map with labels showing the distribution of predicted crop groups in space.</p>
 <div class="cell" data-progress="false">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>crop_class <span class="ot">&lt;-</span> <span class="fu">sits_label_classification</span>(</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> crop_probs,</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">4</span>,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">12</span>,</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress=</span><span class="cn">FALSE</span></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the thematic map</span></span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_class, <span class="at">legend_position=</span><span class="st">"outside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>crop_class <span class="ot">&lt;-</span> <span class="fu">sits_label_classification</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cube =</span> crop_probs,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">multicores =</span> <span class="dv">4</span>,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">memsize =</span> <span class="dv">12</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">output_dir =</span> <span class="st">"data"</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">version =</span> <span class="st">"rf-raster_comb"</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">progress=</span><span class="cn">FALSE</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the thematic map</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(crop_class, <span class="at">legend_position=</span><span class="st">"outside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

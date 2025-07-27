@@ -1,0 +1,10 @@
+@ARTICLE{8004469,
+  author={Roberts, Dale and Mueller, Norman and Mcintyre, Alexis},
+  journal={IEEE Transactions on Geoscience and Remote Sensing}, 
+  title={High-Dimensional Pixel Composites From Earth Observation Time Series}, 
+  year={2017},
+  volume={55},
+  number={11},
+  pages={6254-6264},
+  keywords={Earth;Satellites;Time series analysis;Remote sensing;Australia;Electric breakdown;Clouds;Big data applications;image analysis;remote sensing;time series analysis},
+  doi={10.1109/TGRS.2017.2723896}}
