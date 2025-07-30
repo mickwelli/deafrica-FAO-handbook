@@ -6,11 +6,11 @@ editor: visual
 bibliography: biblio.bib
 ---
 
-# Agricultural Mapping with Digital Earth Africa
+# Agricultural Mapping with Digital Earth Africa and the Satellite Image Time Series Package
 
 ## Overview
 
-Digital Earth Africa offers continental-scale satellite-derived data products and provides guidance on their application in analytical workflows. This chapter demonstrates the use of high quality, cloud-free, geomedian composite images with median absolute deviations (GeoMADs) for crop type mapping. Digital Earth Africa’s GeoMADs are applied to a classification framework in the satellite image time series (SITS) package in the R language.
+Digital Earth Africa offers continental-scale satellite-derived data products and provides guidance on their application in analytical workflows. This chapter demonstrates the use of high quality, cloud-free, geomedian composite images with median absolute deviations (GeoMADs) for crop type mapping. Digital Earth Africa’s GeoMADs are applied to a classification framework in the satellite image time series (`sits`) package in the R language.
 
 The chapter demonstrates how high-quality, ‘off-the-shelf’ satellite image composites can overcome common challenges in classification workflows, such as the ‘curse of dimensionality’ and computational demand. It also introduces readers and users to Digital Earth Africa products and services, and modes of access, especially through the `sits` R package.
 
@@ -28,13 +28,13 @@ The chapter covers the following steps:
 
 ## Digital Earth Africa products and services
 
-Digital Earth Africa provides open access to over 80 spatial datasets covering the African continent. They cover thematics including loand cover, coasts, agriculture, topography, water, and vegetation. These datasets can be explored in several platforms. The [Digital Earth Africa Explorer](https://explorer.digitalearth.africa/products) displays metadata for each dataset, including availability in space and time. It also enables download of single band .tif files.
+Digital Earth Africa provides open access to over 80 spatial datasets covering the African continent. They cover thematics including land cover, coasts, agriculture, topography, water, and vegetation. These datasets can be explored in several platforms. The [Digital Earth Africa Explorer](https://explorer.digitalearth.africa/products) displays metadata for each dataset, including availability in space and time. It also enables download of single band .tif files.
 
-Digital Earth Africa data can be visualised in the Digital Earth Africa Maps platform. This platform also supports basic visual analysis including differencing and comparison
+Digital Earth Africa data can be visualised in the Digital Earth Africa Maps platform. This platform also supports basic visual analysis including differencing and comparison.
 
 The Digital Earth Africa Sandbox is a JupyterHub computing environment where users can interact with Digital Earth Africa data using Python. The Sandbox provides a direct connection to the Digital Earth Africa implementation of the Open Data Cube, so datasets can easily be queried.
 
-Digital Earth Africa data is also retrievable using the STAC library through packages such as odc-stac (Python) and rstac (R). Digital Earth Africa maintains a repository of odc-stac examples. This chapter uses the sits R package to access and analyse Digital Earth Africa data for the purposes of agricultural mapping and monitoring.
+Digital Earth Africa data is also retrievable using the STAC library through packages such as `odc-stac` (Python) and `rstac` (R). Digital Earth Africa maintains a repository of odc-stac examples. This chapter uses the `sits` R package to access and analyse Digital Earth Africa data for the purposes of agricultural mapping and monitoring.
 
 ## R sits and Digital Earth Africa
 
@@ -62,7 +62,7 @@ Digital Earth Africa datasets available in the sits package are:
 
 -   Semi-annual (six monthly) [geomedian composite images](https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html) for Sentinel-2 (`GM-S2-SEMIANNUAL`)
 
-Digital Earth Africa platforms are built on the Open Data Cube which uses Python for many applications. However, the sits package builds upon the rstac package which integrates with Digital Earth Africa through Spatio-Temporal Asset Catalogs (STAC). Digital Earth Africa data can therefore be loaded into cubes and other forms amenable to analysis in R.
+Digital Earth Africa platforms are built on the Open Data Cube which uses Python for many applications. However, the `sits` package builds upon the `rstac` package which integrates with Digital Earth Africa through Spatio-Temporal Asset Catalogs (STAC). Digital Earth Africa data can therefore be loaded into cubes and other forms amenable to analysis in R.
 
 The analytical component of the chapter begins with loading packages required for the crop type mapping workflow.
 
@@ -95,7 +95,7 @@ Geomedians have been a popular input dataset for machine learning classification
 
 Supervised classification requires reference data to train and validate models. For crop type mapping, this generally means spatial information collected from agricultural surveys is used. Field surveys are resource intensive and any field collected data is valuable, though may need manipulation before it is used in classification and mapping workflows.
 
-There are several principles and guidelines that should be followed when collecting reference data for crop type mapping or assessing its value. The Group on Earth Observations, through the Joint Assessment for Crop Assessment and Monitoring, have published [guidelines for cropland and crop type definition and field data collection](https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf) [@defourny2014jecam]. The TetraTech Enabling Crop Analytics At Scale initiative have [published guidelines for the collection of reference crop type data using ODK software](https://cropanalytics.net/wp-content/uploads/2021/09/ODK-Agriculture-User-Guide-v0.4-1.pdf). There are also numerous academic materials exploring various sampling techniques for crop type mapping field data collection [@FOWLER2020102114, @LIN2022112994].
+There are several principles and guidelines that should be followed when collecting reference data for crop type mapping or assessing its value. The Group on Earth Observations, through the Joint Assessment for Crop Assessment and Monitoring, have published [guidelines for cropland and crop type definition and field data collection](https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf) [@defourny2014jecam]. The TetraTech Enabling Crop Analytics At Scale initiative have [published guidelines for the collection of reference crop type data using ODK software](https://cropanalytics.net/wp-content/uploads/2021/09/ODK-Agriculture-User-Guide-v0.4-1.pdf). There are also numerous academic materials exploring various sampling techniques for crop type mapping field data collection [@FOWLER2020102114; @LIN2022112994].
 
 This chapter demonstrates the use of open-source reference data. In this case, data has been identified from the ESA World Cereal Reference Data Module [@karanam2024worldcereal]. Specifically, a collection of field data from the Muvumba River district of Rwanda in 2020 has been used. The field data was collected as part of the [FAO WaPOR](https://www.fao.org/in-action/remote-sensing-for-water-productivity/en/) program. Alternative sources of field data include [Source Cooperative](https://source.coop/), the [EarthData Common Metadata Repository](https://cmr.earthdata.nasa.gov/search/), and the [Euro Data Cube](https://collections.eurodatacube.com/). Institutions and users may also have their own reference datasets.
 
@@ -113,7 +113,7 @@ Following the download of the the `.geoparquet` file, the data must be read into
 
 The data can then be inspected. It contains 1,143 observations and 31 variables which include the spatial location, crop type, irrigation status and type, and comments on crop condition.
 
-```{r read geoarrow, echo=TRUE}
+```{r read geoarrow, echo=TRUE, message=FALSE, warning=FALSE}
 rwa_2020 <- st_as_sf(read_parquet('data/2020_rwa.geoparquet'), coords=c("X (Longitu", "Y (Latitud"), crs=4326)
 
 rwa_2020
@@ -147,7 +147,8 @@ dea_s2_cube <- sits_cube(
     bands = c("SMAD", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B11"),
     start_date = "2020-01-01",
     end_date = "2020-12-30",
-    crs="EPSG:6933"
+    crs="EPSG:6933",
+    progress=FALSE
 )
 ```
 
@@ -165,19 +166,20 @@ As this workflow is producing a crop type map, the surface reflectance data will
 
 First, a mosaic is created by fusing the tiles in the geomedian data cube. This is plotted in true colour and provides an indication of the spatial extent of the analysis.
 
-```{r sits_mosaic, echo=TRUE, message=FALSE, fig.cap="True-colour image of Digital Earth Africa Sentinel-2 Geomedian for an area of Rwanda."}
+```{r sits_mosaic, echo=TRUE, message=FALSE, warning=FALSE, fig.cap="True-colour image of Digital Earth Africa Sentinel-2 Geomedian for an area of Rwanda."}
 mosaic <- sits_mosaic(
   cube = dea_s2_cube,
   crs = "EPSG:6933",
   output_dir = "data",
-  multicores = 2)
+  multicores = 2,
+  progress = FALSE)
 
 plot(mosaic, red = "B04", blue = "B03", green = "B02")
 ```
 
 Since the mosaic images are stored as `.tif` files in the data directory, they can be loaded as raster objects for application in the `terra` package.
 
-```{r sitstorast, echo=TRUE}
+```{r sitstorast, echo=TRUE, message=FALSE, warning=FALSE}
 mosaic_files <- list.files('data', pattern="*MOSAIC*", full.names = TRUE)
 
 rast_list <- list()
@@ -280,7 +282,8 @@ dea_s2_masked <- sits_cube(
   end_date = "2020-12-30",
   roi = st_transform(st_as_sfc(st_bbox(rwa_2020)), "EPSG:6933"),
   crs="EPSG:6933",
-  parse_info = c("satellite", "sensor", "tile", "date", "band")
+  parse_info = c("satellite", "sensor", "tile", "date", "band"),
+  progress = FALSE
 )
 ```
 
@@ -302,7 +305,7 @@ The code chunk below removes some masking objects that are no longer required fr
 
 Once `NA` values are removed, there are 13 crop type classes of which 47% are maize. The reference data is quite unbalanced with numerous classes each accounting for less than 5% of the total data volume.
 
-```{r sits_train, echo=TRUE}
+```{r sits_train, echo=TRUE, message=FALSE, warning=FALSE}
 rm(crop_class, crop_mask_local, crop_mask, crop_mask_mos)
 
 rwa_2020_crops <- rwa_2020 %>% drop_na("Type of Cr")
@@ -321,7 +324,7 @@ The `sits` function [`reduce_imbalance`](https://rdrr.io/cran/sits/man/sits_redu
 
 The result of the imbalance reduction is returned in the output and shows that each class accounts for at least 5% of the observations. If there was a particular interest in mapping uncommon crops, there could be further balance correction undertaken. Several methods have been proposed and investigated for dealing with class imbalance problems in crop type mapping [@WALDNER2019111375].
 
-```{r reduce imbalance, echo=TRUE, message=FALSE}
+```{r reduce imbalance, echo=TRUE, message=FALSE, warning=FALSE}
 balanced_samples <- sits_reduce_imbalance(
     samples = tseries,
     n_samples_over = 50,
@@ -334,7 +337,7 @@ summary(balanced_samples)
 
 ### Train random forest model
 
-Following correction of unbalanced samples, the training data can be used to prepare a classification model. The [`sits_train`](https://rdrr.io/cran/sits/man/sits_train.html) function supports several machine learning algorithms. In this case, random forest is used. Random Forest is a non-parametric ensemble learning method that, while often outperformed by deep learning models in very large or complex data, offers greater interpretability through tools such as variable importance metrics and partial dependence plots.
+Following correction of unbalanced samples, the training data can be used to prepare a classification model. The [`sits_train`](https://rdrr.io/cran/sits/man/sits_train.html) function supports several machine learning algorithms. In this case, random forest is used. Random forest is a non-parametric ensemble learning method that, while often outperformed by deep learning models in very large or complex data, offers greater interpretability through tools such as variable importance metrics and partial dependence plots.
 
 Prior to model training, the time series data itself is cleaned. This removes `NA` values from the `tibble` objects nested within the `balanced_samples` tibble that may arise from missing pixels or other issues.
 
@@ -358,18 +361,27 @@ plot(rfor_model)
 
 The `sits` package provides a function for performing cross-validation as an accuracy assessment for classification models. The k-fold cross validation method splits the data into k-subsets. For each subset, a sample of data is withheld while the model is trained on all other subsets and then validated on the subset that was withheld. This process returns a confusion matrix and accuracy statistics.
 
-The overall accuracy statistic of 61.4% might be considered acceptable, especially given the large number (13) of classes and class imbalance. However, some classes, such as beans and sorghum, have quite low precision, recall and F1 values, which indicate how accurately individual classes are classified. If there was a particular interest in mapping these specific crop types, further class imbalance treatments or other approaches, such as introducing further predictor variable, might be considered. In this case, the next step will be combining classes to reduce issues associated with class imbalance.
+The overall accuracy statistic of 61.4% might be considered acceptable, especially given the large number (13) of classes and class imbalance. However, some classes, such as beans and sorghum, have quite low precision, recall and F1 values, which indicate how accurately individual classes are classified. If there was a particular interest in mapping these specific crop types, further class imbalance treatments or other approaches, such as introducing further predictor variables, might be considered. In this case, the next step will be combining classes to reduce issues associated with class imbalance.
 
 ```{r kfoldcrossval, echo=TRUE, message=FALSE, warning=FALSE}
 rfor_validate_rwa <- sits_kfold_validate(
     samples = balanced_samples,
     folds = 5,
     ml_method = sits_rfor(),
-    multicores = 2
+    multicores = 2,
+    progress = FALSE
 )
 
 rfor_validate_rwa
 ```
+
+
+
+### Combine crop types into groups
+
+African agriculture is often characterised by great diversity of crop types and varieties, and heterogeneity of crop types and farming practices in space. This can make mapping exercises more challenging than in more uniform and homogenous agricultural landscapes with large field sizes. Sometimes, the large number of crop types can mean that an aggregated approach can produce more useful outputs. In this case, crop classes are combined into their 'crop groups' based on the Indicative Crop Classification (ICC) developed by FAO in the [guidelines for agricultural censuses](https://www.fao.org/4/a0135e/a0135e00.htm). This approach is also adopted in the Joint Assessment for Crop Assessment and Monitoring [guidelines for cropland and crop type definition and field data collection](https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf) [@defourny2014jecam].
+
+In this workflow, crop types are aggregated into six crop groups. 
 
 ```{r combinecroptypes, echo=TRUE}
 tseries_comb <- tseries
@@ -387,11 +399,7 @@ tseries_comb$label[tseries_comb$label %in% c("sugarcane")] <- "Others"
 summary(tseries_comb)
 ```
 
-### Combine crop types into groups
-
-African agriculture is often characterised by great diversity of crop types and varieties, and heterogeneity of crop types and farming practices in space. This can make mapping exercises more challenging than in more uniform and homogenous agricultural landscapes with large field sizes. Sometimes, the large number of crop types can mean that an aggregated approach can produce more useful outputs. In this case, crop classes are combined into their 'crop groups' based on the Indicative Crop Classification (ICC) developed by FAO in the [guidelines for agricultural censuses](https://www.fao.org/4/a0135e/a0135e00.htm). This approach is also adopted in the Joint Assessment for Crop Assessment and Monitoring [guidelines for cropland and crop type definition and field data collection](https://jecam.org/wp-content/uploads/2018/10/JECAM_Guidelines_for_Field_Data_Collection_v1_0.pdf) [@defourny2014jecam].
-
-In this workflow, crop types are aggregated into six crop groups. The `sits_reduce_imbalance` function is again used to produce a dataset where each class represents at least 10% of total observations.
+The `sits_reduce_imbalance` function is again used to produce a dataset where each class represents at least 10% of total observations.
 
 ```{r reduce imbalance comb, echo=TRUE}
 balanced_samples_comb <- sits_reduce_imbalance(
@@ -421,6 +429,7 @@ rfor_model_comb <- sits_train(
 rfor_comb_validate_rwa <- sits_kfold_validate(
     samples = balanced_samples_comb,
     folds = 5,
+    progress = FALSE,
     ml_method = sits_rfor(),
     multicores = 2
 )
@@ -434,7 +443,7 @@ Finally, a classified map can be produced based on the trained classification mo
 
 The output of the `sits_classify` function is a `.tif` file of classification probabilities stored in the output directory provided to the function.
 
-```{r classify, echo=TRUE}
+```{r classify, echo=TRUE, warning=FALSE, message=FALSE}
 gc()
 crop_probs <- sits_classify(
   data = dea_s2_masked,
@@ -442,19 +451,21 @@ crop_probs <- sits_classify(
   output_dir = "data",
   version = "rf-raster_comb",
   multicores = 1,  
-  memsize = 16
+  memsize = 16,
+  progress = FALSE
 )
 ```
 
 The probability layers can be used to generate a classified map with labels showing the distribution of predicted crop groups in space.
 
-```{r classifymap, echo=TRUE}
+```{r classifymap, echo=TRUE, message=FALSE, progress=FALSE, warning = FALSE, fig.cap="Labelled crop groups from a classification over a region of Rwanda."}
 crop_class <- sits_label_classification(
   cube = crop_probs,
   multicores = 4,
   memsize = 12,
   output_dir = "data",
-  version = "rf-raster_comb"
+  version = "rf-raster_comb",
+  progress=FALSE
 )
 
 # Plot the thematic map
